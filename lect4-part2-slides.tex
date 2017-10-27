@@ -1,0 +1,661 @@
+\documentclass{beamer}
+
+\usepackage{qtree}
+
+\usepackage{beamerthemetree}
+\usepackage{color}
+\setbeamertemplate{footline}[frame number]
+\usepackage{graphicx}
+%\usepackage[swedish]{babel} 
+\usepackage[latin1]{inputenc} 
+\usepackage{natbib}
+ 
+\renewcommand{\newblock}{}
+\renewcommand{\bibsection}{}
+
+\title{Generalized quantifiers and copredication}
+\author{Robin Cooper  \\
+University of Gothenburg \\ \medskip 
+Jonathan
+Ginzburg \\ Univ. Paris--Diderot, Sorbonne Paris Cité} 
+\date{Type theory with records for natural language semantics, NASSLLI
+2012 \\ Lecture 4,  part 2}
+
+\AtBeginSection[]
+{
+   \begin{frame}[plain]
+       \frametitle{Outline}
+       \tableofcontents[currentsection]
+   \end{frame}
+}
+
+\newcommand{\backgroundyellow}{\beamertemplateshadingbackground{yellow!40}{magenta!20}}
+\newcommand{\backgroundwhite}{\beamertemplateshadingbackground{white!100}{white!100}}
+
+\newcommand{\ignore}[1]{}
+
+%Records
+
+ \newcommand{\record}[1]{$\left[\mbox{\begin{tabular}{lcl} #1
+ \end{tabular}}\right]$} 
+%\newcommand{\record}[1]{[#1]}
+
+\newcommand{\smallrecord}[1]{$\left[\mbox{\begin{tabular}{@{}l@{}c@{}l@{}} #1
+\end{tabular}}\right]$}
+\newcommand{\field}[2]{#1 & = & #2}
+%\newcommand{\field}[2]{#1=#2}
+\newcommand{\tfield}[2]{#1 & : & #2}
+\newcommand{\smalltfield}[2]{#1:#2 & &}
+%\newcommand{\tfield}[2]{#1:#2}
+\newcommand{\mfield}[3]{#1=#2 & : & #3}
+\newcommand{\smallmfield}[3]{#1=#2:#3 & &}
+\newcommand{\hfield}[2]{{\sc #1} & & #2}
+
+%Types
+
+\newcommand{\down}[1]{[\ \!\check{}\ \!#1]}
+\newcommand{\downP}[1]{[\downarrow\!#1]}
+\newcommand{\downPl}[2]{[\downarrow_{#2}\!#1]}
+
+\begin{document}
+
+\frame[plain]{\titlepage}
+\frame[plain]{\frametitle{Outline}\tableofcontents}
+
+\frame{
+
+\frametitle{Reference}
+
+\cite{Cooper2011}
+
+}
+
+\section{Predication, polysemy and co-predication}
+
+\frame{
+
+\frametitle{Predication and apparent polysemy}
+
+\begin{itemize} 
+ 
+\item The lunch was delicious (food)
+ 
+\item The lunch took forever (event)
+
+\item \cite{Pustejovsky1995,AsherPustejovsky2005,Asher2011}
+
+\item John has memorized the score of
+    the Ninth Symphony
+
+\item The score of the Ninth Symphony is
+    lying on the piano
+
+\item \cite{McCawley1968}
+ 
+\end{itemize} 
+
+}
+
+\frame{
+
+\frametitle{Predication and innovation}
+
+\begin{itemize} 
+ 
+\item The blancmange was delicious 
+ 
+\item $^i$IFK Göteborg's last game was delicious  (coercion of \textit{delicious})
+
+\item $^i$The blancmange took forever  (coercion of \textit{blancmange})
+
+\item IFK's last game took forever
+ 
+\end{itemize} 
+
+}
+
+\frame{
+
+\frametitle{Copredication - an argument against polysemy}
+
+Pustejovsky (and Asher)
+
+\begin{itemize} 
+ 
+\item The lunch was delicious but took forever 
+ 
+\item $^!$The bank specializes in IPO's and is being quickly eroded by
+  the river 
+ 
+\end{itemize} 
+
+}
+
+\frame{
+
+\frametitle{\textit{wrong} -- also an argument against polysemy}
+
+\begin{itemize} 
+ 
+\item $^i$Sam went to the wrong bank (coercion of \textit{bank} to be
+  the join of two readings, common in jokes, \citealp{Ritchie2004}) 
+ 
+\item Kim told me about the wrong lunch (\#she told me about the
+  conversation rather than the food) 
+ 
+\end{itemize} 
+    
+}
+
+\frame{
+
+\frametitle{The lunch frame type}
+
+\record{\tfield{x}{\textit{Ind}} \\
+        \tfield{event}{\textit{Event}} \\
+        \tfield{food}{\textit{Food}} \\
+        \tfield{c$_{\mathrm{lunch}}$}{lunch\_ev\_fd(x, event, food)}}
+
+}
+
+\frame{
+
+\frametitle{The content of \textit{lunch}}
+
+$\lambda r$:\smallrecord{\smalltfield{x}{\textit{Ind}}}(\smallrecord{
+\smalltfield{event}{\textit{Event}} \\
+\smalltfield{food}{\textit{Food}} \\
+\smalltfield{c$_{\mathrm{lunch}}$}{lunch\_ev\_fd($r$.x, event,
+  food)}}) 
+
+}
+
+\section{Dynamic generalized quantifiers}
+
+\frame{
+
+\frametitle{\textit{A donkey runs} -- non-dynamic}
+
+\begin{itemize} 
+ 
+\item \record{\tfield{c$_{\mathrm{exists}}$}{exists($\lambda r$:\smallrecord{\tfield{x}{{\it
+          Ind\/}}}(\smallrecord{\tfield{c$_{\mathrm{donkey}}$}{donkey($r$.x)}}),
+    \\ & & \hspace*{3em}$\lambda
+          r$:\smallrecord{\tfield{x}{{\it
+          Ind\/}}}(\smallrecord{\tfield{c$_{\mathrm{run}}$}{run($r$.x)}}))}} 
+ 
+\item  $q(P_1,P_2)$ is non-empty just in case $q*$ holds between
+$\downP{P_1}$ and $\downP{P_2}$
+
+\item $q*$ is the classical generalized quantifier relation for $q$
+
+\item if $P$:\textit{Ppty}, $\downP{P}=\{a\mid\exists
+  r[r:$\smallrecord{\smalltfield{x}{\textit{Ind}}}$\wedge\
+  r.\mathrm{x}=a\wedge\{b\mid b:P(r)\}\not=\emptyset]\}$ (the set of
+  objects that have the property, the \textit{property extension})
+
+\item exists($P_1$,$P_2$) is a non-empty type just in case $\downP{P_1}\cap\downP{P_2}\not=\emptyset$  
+ 
+\end{itemize} 
+
+
+} 
+
+\frame{
+
+\frametitle{Making quantifiers dynamic}
+
+\begin{itemize} 
+ 
+\item We make quantifiers dynamic by passing the information from the
+  first property to the second property, thus making the second
+  property more restricted 
+ 
+\item instead of exists(``donkey'',``runs'') we have
+  exists(``donkey'',``runs restricted to donkeys'')
+
+\item If $f$ is a function $\lambda v:T_1(\phi)$, then the
+\textit{restriction of} $f$ \textit{by the type} $T_2$, $f\restriction
+T_2$, is $\lambda
+v:T_1$\d{$\wedge$}$T_2(\phi)$
+
+\item $q(P_1,P_2)$ is a non-empty type just in case $q*$ holds between
+$\downP{P_1}$ and $\downP{P_2\restriction {\cal F}(P_1)}$
+
+\item $\mathcal{F}$($\lambda
+  r$:\smallrecord{\smalltfield{x}{\textit{Ind}}}(\smallrecord{\smalltfield{c$_{\mathrm{donkey}}$}{donkey($r$.x)}}))
+  = \smallrecord{\smalltfield{x}{\textit{Ind}} \\
+                 \smalltfield{c$_{\mathrm{donkey}}$}{donkey(x)}}
+ 
+\end{itemize} 
+
+}
+
+\frame{
+
+\frametitle{Fixed point types of properties}
+
+\begin{itemize} 
+ 
+\item a \textit{fixed point} of a property $P$ is an $a$ such
+  that $a:P(a)$
+
+ 
+\item a \textit{fixed point type} of $P$ is a type such that
+  anything of that type will be a fixed point of $P$.
+  $\mathcal{F}(P)$ is such a fixed point type (one with the minimal
+  number of required fields).  
+ 
+\end{itemize} 
+
+}
+
+\frame{
+
+\frametitle{Copredication}
+
+\begin{itemize} 
+ 
+\item  $\lambda r$:\smallrecord{\tfield{x}{{\it Ind\/}} \\
+                           \tfield{event}{\textit{Event}}}(\smallrecord{\tfield{c$_{\mathrm{forever}}$}{take\_forever\_ev($r$.x,$r$.event)}}) 
+ 
+\item $\lambda r$:\smallrecord{\tfield{x}{{\it Ind\/}} \\
+                           \tfield{food}{\textit{Food}}}(\smallrecord{\tfield{c$_{\mathrm{delicious}}$}{be\_delicious\_fd($r$.x,$r$.food)}})
+
+\item $\lambda r$:\smallrecord{\tfield{x}{{\it Ind\/}} \\
+                           \tfield{food}{\textit{Food}}\\
+                         \tfield{event}{\textit{Event}}}(\smallrecord{\tfield{c$_{\mathrm{delicious}}$}{be\_delicious\_fd($r$.x,$r$.food)}\\
+\tfield{c$_{\mathrm{forever}}$}{take\_forever\_ev($r$.x,$r$.event)}})
+
+\item $\lambda r$:\smallrecord{\tfield{x}{{\it Ind\/}}}(\record{
+\tfield{food}{\textit{Food}} \\
+\tfield{c$_{\mathrm{blancmange}}$}{blancmange($r$.x,food)}})
+
+\item $\lambda r$:\smallrecord{\tfield{x}{{\it Ind\/}}}(\record{
+\tfield{event}{\textit{Event}} \\
+\tfield{c$_{\mathrm{game}}$}{game($r$.x,event)}})
+
+\item $\lambda r$:\smallrecord{\smalltfield{x}{\textit{Ind}}}(\smallrecord{
+\smalltfield{event}{\textit{Event}} \\
+\smalltfield{food}{\textit{Food}} \\
+\smalltfield{c$_{\mathrm{lunch}}$}{lunch\_ev\_fd($r$.x, event, food)}})
+ 
+\end{itemize} 
+
+}
+
+\frame{
+
+\frametitle{Dynamic interpretation of \textit{the game took forever}}
+
+ \begin{itemize} 
+
+ \item the($\lambda r$:\smallrecord{\tfield{x}{{\it
+           Ind\/}}}(\record{
+ \tfield{event}{\textit{Event}} \\
+ \tfield{c$_{\mathrm{game}}$}{game\_ev($r$.x,event)}}),\\
+           \hspace*{-1em}$\lambda
+           r$:\smallrecord{\tfield{x}{{\it
+           Ind\/}}\\
+           \tfield{event}{\textit{Event}}\\
+           \tfield{c$_{\mathrm{game}}$}{game\_ev(x,event)}}(\smallrecord{\tfield{c$_{\mathrm{forever}}$}{took\_forever\_ev($r$.x,$r$.event)}})) 
+
+ \item OK -- the information passed on is a subtype of the domain type
+   of the predicate 
+
+ \end{itemize} 
+
+
+ }
+
+ \frame{
+
+ \frametitle{Requiring coercion, lexical innovation:  \textit{the game
+     was delicious}}
+
+ \begin{itemize} 
+
+ \item the($\lambda r$:\smallrecord{\tfield{x}{{\it
+           Ind\/}}}(\smallrecord{\tfield{event}{\textit{Event}} \\
+                                 \tfield{c$_{\mathrm{game}}$}{game\_ev($r$.x,event)}}),\\
+           \hspace*{-1em}$\lambda
+           r$:\smallrecord{\tfield{x}{{\it
+           Ind\/}}\\
+           \tfield{event}{\textit{Event}} \\
+           \tfield{c$_{\mathrm{game}}$}{game\_ev(x,event)} \\
+           \tfield{food}{\textit{Food}}}(\smallrecord{\tfield{c$_{\mathrm{delicious}}$}{be\_delicious\_fd($r$.x,$r$.food)}})) 
+
+ \item \textit{not} OK -- the information passed on is not a subtype of
+   the domain type of the predicate.  It does not provide a food
+   aspect.  Something needs to be changed!
+
+ \end{itemize} 
+
+ }           
+
+
+ \section{A counting puzzle}
+
+ \frame{
+
+ \frametitle{A puzzle posed by Tim Fernando}
+
+ \begin{itemize} 
+
+ \item Suppose that on the shelf there are
+ \begin{itemize} 
+
+ \item exactly two copies of \textit{War and Peace} 
+
+ \item two copies of \textit{Ulysses}
+
+ \item six copies of the Bible
+
+ \end{itemize} 
+
+
+ \item How many books are there on the shelf?
+ \begin{itemize} 
+
+ \pause \item ten (if you are counting physical objects) 
+
+ \pause \item three (if you are counting information or textual
+ objects) 
+
+ \pause \item cf. physical vs informational objects as discussed in the
+ Generative Lexicon by Pustejovsky
+
+ \end{itemize} 
+
+
+ \end{itemize} 
+ }
+
+ \frame{
+
+ \frametitle{More complications for the Fernando puzzle}
+
+ \begin{itemize} 
+
+ \item Suppose one of the copies of \textit{War and Peace} is the
+   Russian original and the other is a Swedish translation 
+
+ \item Does that count as one or two books?
+ \begin{itemize} 
+
+ \pause \item Same informational content (more or less) 
+
+ \pause \item Not the same textual content 
+
+ \pause \item In one sense you have two copies of the same book
+
+ \pause \item For other purposes you may want to count it as two
+ distinct books
+
+ \end{itemize} 
+
+
+ \pause \item Two different editions of the Bible may contain the same
+ basic text but different annotations by different biblical scholars
+
+ \pause \item For some purposes that will count as one book and for
+ others as two
+
+ \end{itemize} 
+
+ }
+
+ %\section{Frames and types}
+
+ \frame{
+
+ \frametitle{FrameNet frame for \textit{book}}
+
+ Frame elements:
+
+ \begin{itemize} 
+
+ \item Author 
+
+ \item Components
+
+ \item Genre
+
+ \item Text
+
+ \item Title
+
+ \item Topic
+
+ \end{itemize} 
+
+
+ }
+
+ % \frame{
+
+ % \frametitle{Pustejovsky and Asher on dot-types}
+
+ % \begin{itemize} 
+
+ % \item \textit{PhysObj}
+
+ % \item \textit{InfObj}
+
+ % \pause \item  \textit{PhysObj}$\bullet$\textit{InfObj}
+
+ % \pause \item $a$ : \textit{PhysObj}$\bullet$\textit{InfObj} just in case
+ % it has a ``physical object aspect'' and an ``informational object
+ % aspect''
+
+ % \pause \item Asher's latest proposal in terms of category theory
+
+ % \pause \item Why dot types and not ambiguity?
+ % \begin{itemize} 
+
+ % \item \textit{The book is important for the course but too heavy to
+ %     bring to each class meeting} 
+
+ % \item \textit{\#The bank is in good financial shape but severely
+ %     eroded by the river} 
+
+ % \end{itemize} 
+
+
+ % \end{itemize} 
+
+ % }  
+
+ \frame{
+
+ \frametitle{A frame type for \textit{book}}
+
+ \begin{itemize}
+
+ \item \record{\tfield{x}{\textit{Ind}} \\
+         \tfield{physobj}{\textit{PhysObj}} \\
+          \tfield{infobj}{\textit{InfObj}} \\
+          \tfield{c$_{\mathrm{book}}$}{book\_ph\_inf(x,physobj,infobj)}}
+
+ % \pause \item A record (frame, situation) is of this type just in case
+ % \begin{enumerate} 
+
+ % \pause \item it has fields with the same labels (possibly more fields) 
+
+ % \pause \item the values in each of the fields is of the corresponding type 
+
+ % \end{enumerate}
+
+
+ \end{itemize}  
+
+
+ }
+
+ %\section{Properties and counting}
+
+ \frame{
+
+ \frametitle{The property \textit{is a book}}
+
+ $\lambda r$:\smallrecord{\smalltfield{x}{\textit{Ind}}}
+ (\record{\tfield{physobj}{\textit{PhysObj}} \\
+          \tfield{infobj}{\textit{InfObj}} \\
+          \tfield{c$_{\mathrm{book}}$}{book\_ph\_inf($r$.x,physobj,infobj)}})
+
+ }
+
+ % \frame{
+
+ % \frametitle{Property extensions}
+
+ % % \begin{itemize} 
+
+ % % \item If $T$ is a type, then the \textit{extension} of $T$,
+ % % $\down{T}$, is
+ % % $\{a\mid a:T\}$ 
+
+
+ % % \item If $P$ is a property, then the property-extension
+ % % or \textit{P-extension} of $P$, $\downP{P}$, is  
+ % % $\{a\mid\exists r[r:$\smallrecord{\smalltfield{x}{\textit{Ind}}}
+ % % $\wedge\ r.\mathrm{x}=a\wedge\down{P(r)}\not=\emptyset]\}$
+
+
+ % % \end{itemize} 
+
+ % If $P$ is a property, then the property-extension
+ % or \textit{P-extension} of $P$, $\downP{P}$, is  
+ % $\{a\mid\exists r[r:$\smallrecord{\smalltfield{x}{\textit{Ind}}}
+ % $\wedge\ \exists r'[r':P(r) 
+ % \wedge\ r.\mathrm{x}=a]]\}$
+ % } 
+
+\frame{
+
+\frametitle{Relativized property extensions}
+
+The \textit{P-extension of} $P$ \textit{relative to label} $\ell$ (in
+the body of $P$),
+$\downPl{P}{\ell}$, is 
+$\{a\mid\exists r[r:$\smallrecord{\smalltfield{x}{\textit{Ind}}}
+$\wedge\ \exists r'[r':P(r)\wedge\ r'.\ell=a\}]]\}$ 
+
+}   
+
+\frame{
+
+\frametitle{Counting books on the shelf}
+
+\begin{itemize} 
+ 
+\item $P$ = $\lambda r$:\smallrecord{\smalltfield{x}{\textit{Ind}}} \\
+\hspace*{4em}(\record{\tfield{physobj}{\textit{PhysObj}} \\
+         \tfield{infobj}{\textit{InfObj}} \\
+         \tfield{c$_{\mathrm{book}}$}{book\_ph\_inf($r$.x,physobj,infobj)}
+       \\ \tfield{c$_{\mathrm{on\_shelf}}$}{on\_shelf($r$.x)}}) 
+ 
+\pause \item $\mid\downPl{P}{\mathrm{physobj}}\mid$ -- the number of books
+  (physical objects) on the shelf
+
+\pause \item $\mid\downPl{P}{\mathrm{infobj}}\mid$ -- the number of books
+  (informational objects) on the shelf
+ 
+\end{itemize} 
+}  
+
+\frame{
+
+\frametitle{Which attributes can you use for counting?}
+
+\begin{itemize} 
+ 
+\item we have relativized the counting of property extensions to
+  attributes in a frame
+ 
+\pause \item  but which attributes can be used for counting?
+
+\pause \item if we use something like the FrameNet frame corresponding
+to book:
+\begin{itemize} 
+ 
+\pause \item `author' is NOT an appropriate way of counting 
+ 
+\pause \item `title' MAY be an appropriate way of counting \pause
+though Google books returns 9,950 entries for
+``Introduction to Chemistry'' \ldots
+
+\pause \item `author' and `title' together could be useful for the
+majority of databases -- authors don't usually write two books with
+the same title \ldots
+
+\pause \item `text' seems like a good bet
+
+\pause \item `physical object' is missing
+
+\pause \item Do we mark attributes as suitable for counting or is
+there something more general we can say?
+ 
+\end{itemize} 
+  
+ 
+\end{itemize} 
+
+} 
+
+\frame{
+
+\frametitle{Conclusions: Counting and identity conditions}
+
+\begin{itemize} 
+ 
+\item attributes which can be used for counting are the same as those
+  which can be used to uniquely identify objects 
+ 
+\pause \item  is there a general theory which will tell us for any property
+  what the identity conditions of objects falling under that property are?
+
+\pause \item we have developed a way of accounting for different ways of
+  counting objects falling under a single property
+
+\pause \item we have raised the possibility of indicating which
+(sets of) attributes are ``identifying'' attributes which can be used
+for counting
+ 
+\end{itemize} 
+} 
+
+\frame{
+
+\frametitle{Summary}
+
+\begin{itemize} 
+ 
+\item We showed how to analyze co-predication using record types 
+ 
+\item We related this to the treatment of dynamic quantifiers
+
+\item We showed how this enables to identify the need for coercion
+
+\item We addressed a puzzle concerning the way we count objects,
+  suggesting that we count objects in terms of aspects
+ 
+\end{itemize} 
+
+}  
+
+\frame[allowframebreaks]{
+
+\frametitle{References}
+
+\nocite{Asher2011}
+\nocite{Cooper2011}
+\nocite{Luo2011}
+
+\bibliographystyle{apalike}%{/Users/cooper/LaTeX/bib/mybib}
+\bibliography{/Users/cooper/LaTeX/bib/bibliography}
+}
+
+  
+
+\end{document}

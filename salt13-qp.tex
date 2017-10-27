@@ -1,0 +1,267 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+%\usepackage{natbib}
+%\bibpunct{(}{)}{,}{a}{}{;}
+%\usepackage{linguex} 
+\usepackage{avm,lingmacros}%,jg-gen} 
+\usepackage{url}
+
+%----- MARGINS ----------------
+
+
+% \newcommand{\record}[1]{$\left[\mbox{\begin{tabular}{lcl} #1
+% \end{tabular}}\right]$} 
+% \newcommand{\smallrecord}[1]{$\left[\mbox{\begin{tabular}{@{}l@{}c@{}l@{}} #1
+%  \end{tabular}}\right]$}
+% \newcommand{\field}[2]{#1 & = & #2}
+% \newcommand{\tfield}[2]{#1 & : & #2}
+% \newcommand{\smalltfield}[2]{#1:#2 & &}
+% \newcommand{\mfield}[3]{#1=#2 & : & #3}
+% \newcommand{\smallmfield}[3]{#1=#2:#3 & &}
+% \newcommand{\hfield}[2]{{\sc #1} & & #2}
+
+%------------------------------
+
+\newcommand{\ignore}[1]{}
+\newcommand{\w}[1]{`\emph{#1}'}
+
+\title{}
+\author{}
+\date{}
+
+%Records
+
+\newcommand{\record}[1]{$\left[\mbox{\begin{tabular}{lcl} #1
+\end{tabular}}\right]$} 
+\newcommand{\smallrecord}[1]{$\left[\mbox{\begin{tabular}{@{}l@{}c@{}l@{}} #1
+\end{tabular}}\right]$}
+
+\newcommand{\field}[2]{#1 & = & #2}
+\newcommand{\tfield}[2]{#1 & : & #2}
+\newcommand{\smalltfield}[2]{#1:#2 & &}
+\newcommand{\mfield}[3]{#1=#2 & : & #3}
+\newcommand{\smallmfield}[3]{#1=#2:#3 & &}
+\newcommand{\hfield}[2]{{\sc #1} & & #2}
+
+\begin{document}
+%\pagestyle{empty}
+
+%--------- title --------------------------------------------------
+%\vspace*{-8\baselineskip}
+
+\begin{center}
+{\bf \Large 
+%On the (Non)Type Unity of Questions and Propositions
+ Questions and Propositions: A Separation}
+\end{center}
+%------------------------------------------------------------------
+\vspace*{5pt}
+
+\ignore{ Checklist:
+
+1. cite Krifka
+
+3. con/dis-joining moves in dialogue: some more details
+
+Some sentence embedding verbs, such as 'ask', have been argued to speech act-type complements (e.g. Krifka 2001, 2002), at least in some languages.  And I do think that embedding a conditional question under 'ask' is better than with 'wonder':  "She asked, if Hollande has left, which visitor arrives next'.  Some varieties of English (maybe Irish English, cf. McClosky 2006) may allow this more freely.
+
+(ii) I'm not sure why the expectation with "The manager knows that John's smart and what qualifications he has" is that 'know' will distribute over its complement, as opposed to being incoherent or ungrammatical.
+
+Although the empirical first part of the paper is nice, the second part, its positive analysis in terms of TTR, is difficult to understand.  I can get the gist, but there are too many assumptions in the background, both at the level of the notation and the conceptual framework.  It would be better to have the core of the analysis presented in a simpler and more familiar or generic formalism, so that we can focus on the basic ideas.  Once that is done, it would be appropriate to argue that the TTR framework lends itself to a insightful development of these basic ideas.  Given that, as far as I can tell, this abstract only presents semantic values for propositions and questions, it's hard to see how just this much could have much advantage over any more familiar distinction between propositions and questions, but maybe there are some considerations which were not made explicit.
+
+\begin{itemize} 
+ 
+\item Questions \textbf{can} be conjoined and disjoined with other questions 
+ 
+\item Questions \textbf{cannot} be conjoined or disjoined with
+  propositions
+
+\item Speech acts involving queries \textbf{can} be conjoined and
+  disjoined with other queries
+
+\item Speech acts involving assertions of propositions and queries
+  \textbf{can} be conjoined and disjoined in that order
+
+\item Questions \textbf{cannot} be conditionalized (although questions
+  based on conditional propositions can be constructed)
+
+\item Speech acts which are queries \textbf{can} be conditionalized
+
+\item Questions \textbf{cannot} be negated (although questions based
+  on negative propositions can be constructed)
+
+\ignore{\item Speech acts which are queries (or any other speech acts)
+  \textbf{cannot} be negated.  That is, \textit{Isn't he quite smart?}
+  cannot mean ``I'm not asking you whether he is smart''.
+ }
+\end{itemize} 
+}
+
+%JG comment: replace modality or add negation so we can bring it in the picture
+
+Does analyzing questions require entities distinct from propositions?
+Both Hamblin and Karttunen gave arguments for distinguishing questions
+as an ontological category from propositions---([Hamblin 1958]\ignore{\cite{hamblin58}})
+pointing out that interrogatives lack truth values (\textit{It's true/false who came yesterday}), to which one
+can add their incompatibility with a wider scoping alethic modality
+(\textit{\# Necessarily, who will leave tomorrow?}) whereas ([Karttunen 1977]\ignore{\cite{kartt77}})
+pointed to the existence of predicates that select interrogatives, but
+not for declaratives and vice
+versa:
+\textit{Bo asked/investigated/wondered/\# believed /\# claimed who came
+yesterday},  \textit{Bo \# asked/\# investigated/\# wondered/ believed
+/claimed that Mary came yesterday}.
+Recently there have been a number of proposals that questions and propositions are of
+a single ontological category% , which offers a simple treatment of Boolean operations
+(see [Nelken and Shan 2006]\ignore{\cite{nelken-francez,nelken-shan06}}) and most influentially work
+in Inquisitive Semantics (IS) ([Groenendijk and Roelofsen 2009]\ignore{\cite{groenendijk09}}).  A significant
+argument for this is examples like \textit{If Kim is not available,
+  who should we ask to give the talk?} where propositions and
+questions can apparently be combined by boolean connectives.
+
+In this paper we will consider potential problems for this as a
+strategy as an analysis for natural language. We argue that although
+speech acts involving questions
+and propositions can be combined by boolean connectives they are not closed under boolean operations.  Furthermore, we argue that the propositions and questions  \textit{qua} semantic
+objects cannot be combined by boolean operations at all. This, together with
+the examples above, strongly suggests that questions and propositions are distinct
+types of semantic objects. We develop a semantic ontology for questions and propositions within the framework of Type Theory with Records (TTR) [Cooper 2012] and embed it in a theory  that can capture combinatorics of dialogue moves [Ginzburg 2012].
+
+
+% proposition and it has been noted in the literature that a sentence
+% like \textit{The manager knows that John's smart and what
+%     qualifications he has} seems acceptable.  However, we believe that
+%   the only way of interpreting this is one
+
+We use embedding under attitude verbs as a test for propositions and
+questions as semantic objects.  Here we do not find mixed
+boolean combinations of questions and propositions.  Thus, for
+example, \textit{wonder} selects for an embedded question and
+\textit{believe} for an embedded proposition but a mixed conjunction
+does not work with either, showing that it is neither a question nor a proposition: \textit{The manager *wonders/*believes that several  people left and what rooms we need to
+clean}.  The verb \textit{know} is compatible with both interrogative
+and declarative complements, though ([Vendler 1972, Ginzburg and Sag 2000]) \ignore{\cite{vendler72,gs00}} argue that such predicates do not take
+questions or propositions as genuine arguments (i.e. not purely
+referentially), but involve {\it coercions}   which leads to a predication of a {\it fact}.
+The well formedness of these coercion processes require  that sentences involving decl/int conjunctions such as \textit{The manager knows that John's smart and what    qualifications he has} can only be understood where the verb is  distributed over the two conjuncts: ``knows that John's smart and  knows what qualifications he has''.  Compare \textit{It's surprising
+    that the conference was held at the usual time and so few people
+    registered} and \textit{It's surprising that the conference was
+    held at the usual time and how few people registered}.  In the
+  second mixed case there is only a reading which entails that it is
+  surprising the conference was held at the usual time whereas
+  arguably in the first sentence only the conjunction but not the
+  individual conjuncts need be surprising.  Embedded conditional questions are
+  impossible: \textit{*The manager wonders if Hollande left, whether we need to
+    clean the west wing.}, although, of course, embedded questions
+  containing conditionals are fine:  \textit{The manager wonders whether, if Hollande left, we need to    clean the west wing.} (There is some variability on judgements with `ask' here, given dialects that arguably allow for  speech act-type complements (Krifka 2001, McCloskey 2006)).
+
+
+
+Why, then, do apparent mixed boolean combinations appear in root
+sentences?  Our answer
+is that natural language connectives, in addition to their
+function as logical connectives combining propositions, can be used to
+combine speech acts into another single speech act.  This, however, can only be expressed in root sentences and speech acts are not closed under operations
+corresponding to boolean connectives.  For
+example, \textit{John's very smart but does he have any
+  qualifications?} where a query follows an assertion is fine whereas
+the combination of an assertion with a preceding query is not:
+\textit{*Does John have any qualifications and/but he's smart} is not.
+This is puzzling because a discourse corresponding to a string of the
+same separate speech acts works well:  \textit{Does John have any
+  qualifications? (no answer) But he's smart.}  Similarly, while we
+can apparently conditionalize a query with a proposition
+(\textit{If Hollande left, do we need to clean the west wing},
+i.e. ``If Hollande left, I ask you whether we need to clean the west
+wing''), we cannot conditionalize an assertion with a question
+(\textit{*If whether Hollande left/did Hollande leave, we need to
+  clean the west wing}) and neither can we conditionalize a query
+with a question (\textit{*If who left, do we need to clean the west
+  wing?}).  However we treat these facts, it seems
+clear that it would be dangerous to collapse questions and
+propositions into the same type of semantic object and allow general
+application of semantic boolean operators.  This would seem to force
+you into a situation where you have to predict acceptability of these
+sentences purely on the basis of a theory of syntax, although
+semantically/pragmatically they would have made perfect sense.  It
+seems to us that distinguishing between questions and propositions and
+combinations of speech acts offers a more explanatory approach.
+
+\ignore{
+1. TTR theory of ps and qs: conj, disj, and neg
+2. KoS theory of speech act connectives (cite Krifka)
+}
+In the formal development of the paper we  present a type theory distinguishing
+ propositions and questions while
+ accounting for their combinatorial possibilities without complex type shifting as in [Groenendijk and Stokhof 1989]. The type theory formulated in TTR builds on (i)  ({\bf Boolean splitting}): $s : T_1 \wedge/\vee T_2$ iff $s :T_1$ and/or $s :T_2$  and (ii) {\bf Negative types}: $a:\neg T$ iff there is some $T'$ such that $a:T'$  and $T'$precludes $T$. (essentially: there is no $a$ such that $a:T$ and $a:T'$).
+   Both assumptions are motivated in part by data concerning negative perception complements [Barwise 1981]. Both propositions and questions are modelled as records:  the former constructed from a situation and a record type---$prop(s,T)$, and {\it true} iff $s : T$; the latter built from a situation and a dependent  type---$q(s,(T1)T2)$, {\it resolved} iff either (i) for some $a:T_1$  $s : q(a)$, \textbf{or} (ii) 
+$a:T_1$ implies  $s : \neg q(a)$. Given this and {\bf Boolean splitting}, straightforward definitions of conjunction and disjunction on propositions and questions ensure that truth and resolvedness distribute over these connectives. Negation on a proposition $prop(s,T)$ yields  $prop(s,\neg T)$. Questions cannot be negated given their structure---``negative questions'' involve questions relating to negative propositions rather than negations of positivequestions. Such negative questions are crucially distinct in this system from thecorresponding positive question, following [Cooper and Ginzburg 2012].
+ 
+ We  show how the mixed
+cases involving conjunctions of assertions and queries can be captured in a
+QUD--based dialogue semantics using an algebraic approach to speech
+events: whereas `and' indicates that the following question $q1$ is
+independent of the current  Max(imal element of)QUD; `but'
+indicates that $q1$   is not
+independent, but unexpected given MaxQUD, whereas `or'  presupposes
+the existence of an issue   that both $q1$ 
+and   MaxQUD address, hence both are retained as MaxQUD. 
+
+\ignore{
+%JG: or mention negation?
+\vspace{5pt}
+{\tiny
+\noindent [1] Cooper, R., Ginzburg, J. (2012): `Negative inquisitiveness and alternatives-based
+  negation'. In: Aloni, M. et al  (eds.) {\it Logic, Language and Meaning, Lecture Notes in Computer  Science}, Springer;  [2] Cooper, R.  (2012): `Type theory and semantics in flux'. In: Kempson, R. et al (eds.) {\it Handbook of the Philosophy of Science, vol. 14:
+  Philosophy of Linguistics}. Elsevier; [3] Ginzburg, J., Sag, I.A. (2000):{\it  Interrogative Investigations: the form, meaning and use of English Interrogatives.} No. 123 in CSLI Lecture Notes, CSLI  Publications; [4] Groenendijk, J., Roelofsen, F  (2009).: `Inquisitive semantics and pragmatics'. In:  {\it Meaning, Content, and Argument: Proceedings of the ILCLI International
+  Workshop on Semantics, Pragmatics, and Rhetoric};  [5] Hamblin, C.L.  (1958): `Questions'. {\it Australian Journal of Philosophy}  36,  159--168;  [6] Karttunen, L. (1977): Syntax and semantics of questions. Linguistics and Philosophy  1,  3--44;  [7] Nelken, R., Francez, N.  (2002): `Bilattices and the semantics of natural language questions'. {\it Linguistics and Philosophy}  25,  37--64; [8] Nelken, R., Shan, C.C. (2006): `A modal interpretation of the logic of interrogation'. {\it  Journal of Logic, Language, and Information}  15,  251--271; [9] Vendler, Z. (1972): {\it Res Cogitans}. Cornell University Press, Ithaca;  [10] Wi{\'{s}}niewski, A.  (2001): Questions and inferences. {\it Logique et Analyse}  173,  5--43
+\par } 
+}
+%\end{thebibliography}
+
+%\vspace*{-\baselineskip}
+%{\tiny
+%\bibliographystyle{splncs03}
+%\bibliography{newest-jg-fin}
+%}
+\end{document}
+
+The type of Austinian propositions is the record type
+(1a),where the type \textit{RecType}$^\dagger$ is a basic type
+which denotes the type of (\textit{non-dependent}) record types closed under meet, join and
+negation.  Truth conditions for Austinian propositions are defined in (1b).
+
+\noindent (1a) \
+\textit{Prop} =$_{def}$
+\record{\tfield{sit}{\textit{Rec}}\\ \tfield{sit-type}{\textit{RecType}$^\dagger$}} \\
+(1b) A proposition $p$ = \record{\field{sit}{$s_0$}\\
+  \field{sit-type}{$ST_0$}} is true iff $s_0 : ST_0$
+
+If $p$:\textit{Prop} and $p$.sit-type is $T_1\wedge T_2$ ($T_1\vee
+T_2$, $\neg T$) we say that $p$ is the conjunction (disjunction) of
+\record{\field{sit}{$p$.sit} \\
+  \field{sit-type}{$T_1$}} and  \record{\field{sit}{$p$.sit} \\
+  \field{sit-type}{$T_2$}} (the negation of \record{\field{sit}{$p$.sit} \\
+  \field{sit-type}{$T$}}).  
+  
+  
+
+\noindent {\small (2a) \textit{Who} = \begin{avm}\[x : \textit{Ind}\\ 
+c1 : person(x)\]\end{avm}; \textit{Whether} = {\it Rec};
+(2b) `Who runs' $\mapsto$ \begin{avm}\[sit =$r_1$\\
+dep-type = $\lambda r$:\textit{Who}(\[c : run($r$.x)\])\]\end{avm}; \\
+(2c) `Whether Bo runs' $\mapsto$ \begin{avm}\[sit =$r_1$\\
+dep-type = $\lambda r$:\textit{Whether}(\[c : run(b)\])\]\end{avm} }
+
+, is as follows:
+
+ \record{\field{sit}{$s$} \\
+        \field{dep-type}{     $\lambda r:T_1\
+  (T_2)$       }} $\wedge$/$\vee$ \record{\field{sit}{$s$} \\
+                                                  \field{dep-type}{   $\lambda r:T_3\ (T_4)$  }}
+                                                = \\ 
+\hspace*{5em}\record{\field{sit}{$s$} \\
+                                                          \field{dep-type}{   $\lambda r$:\smallrecord{\smalltfield{left}{$T_1$} \\
+                         \smalltfield{right}{$T_3$}}($q_1(r.\mathrm{left})\wedge /\vee q_2(r.\mathrm{right})$)    }}
+
+

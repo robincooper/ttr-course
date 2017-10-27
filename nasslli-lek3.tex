@@ -1,0 +1,1917 @@
+
+\documentclass{beamer}
+
+%\usepackage{qtree}
+\usepackage{beamerthemetree}
+%\usepackage{beamerthemesplit}
+\usepackage{color}
+\usepackage{lingmacros}
+\setbeamertemplate{footline}[frame number]
+\usepackage{graphicx}
+%\usepackage{xyling}
+%\usepackage[swedish]{babel} 
+\usepackage[latin1]{inputenc} 
+\usepackage{natbib,avm}
+\newcommand{\newblock}{}
+\usepackage{hyperref}
+
+
+\title{Type Theory with Records for Natural Language Semantics:\\
+  Lecture 3           }
+\author{Jonathan Ginzburg\\
+Universit\'e Paris-Diderot, Sorbonne Paris-Cit\'e\\
+Robin Cooper\\ 
+University of Gothenburg}
+\date{}
+
+\AtBeginSection[]
+{
+   \begin{frame}[plain]
+       \frametitle{Outline}
+       \tableofcontents[currentsection]
+   \end{frame}
+}
+
+\newcommand{\backgroundyellow}{\beamertemplateshadingbackground{yellow!40}{magenta!20}}
+\newcommand{\backgroundwhite}{\beamertemplateshadingbackground{white!100}{white!100}}
+\newcommand{\ba}{\begin{avm}}
+\newcommand{\ea}{\end{avm}}
+\newcommand{\ugh}{\#}
+
+\newenvironment{display}{\begin{center}}{\end{center}}
+
+%
+% Reference the next example in the text:
+%
+\newcommand{\nexteg}[1]{\addtocounter{examplectr}{1}(\arabic{examplectr}{#1})\addtocounter{examplectr}{-1}}
+%
+% Reference the previous example in the text:
+%
+\newcommand{\preveg}[1]{(\arabic{examplectr}{#1})}
+%
+% Reference examples by relative offsets:
+%
+\newcommand{\egnum}[2]{\addtocounter{examplectr}{#1}(\arabic{examplectr}{#2})\addtocounter{examplectr}{-#1}}
+%
+%
+% ENVIRONMENTS
+%
+% Examples Environments
+%
+\newcounter{examplectr}
+\newcounter{subexamplectr}[examplectr]
+\renewcommand{\thesubexamplectr}{\alph{subexamplectr}}
+%
+% Sub-example Macro:
+%
+\newenvironment{subex}%
+   {%\vspace*{-.8\baselineskip}
+     \begin{list}
+       {\alph{subexamplectr}.}%
+       {\setlength{\topsep}{0in}
+        \setlength{\leftmargin}{1em}%{0.25in}
+        %\setlength{\listparindent}{-2em}
+        %\setlength{\labelsep}{\baselineskip}
+ \usecounter{subexamplectr} }
+       }%
+   {\end{list}}
+%
+% Single Example Macro
+%
+% \newenvironment{ex}%
+%    { \refstepcounter{examplectr}
+     
+% \bigskip
+
+%     % \begin{list}
+%       % {
+%        (\arabic{examplectr})%}%
+%        % {%\setlength{\topsep}{0in}
+% %         \setlength{\leftmargin}{4em}%{0.75in}
+% %         \setlength{\labelsep}{\baselineskip}
+% % }
+%         \hspace*{1em}\begin{minipage}[t]{4in} 
+% %\item
+%    }%
+%    {\end{minipage}
+
+% \bigskip
+
+%     %\end{list}
+% }
+% %
+% % End of example macro
+% %
+\newcommand{\bit}{\begin{itemize}}
+\newcommand{\pa}{\pause}
+\newcommand{\eit}{\end{itemize}}
+\newcommand{\ben}{\begin{enumerate}}
+\newcommand{\een}{\end{enumerate}}
+\newcommand{\ignore}[1]{}
+\newcommand{\eeen}{\eenumsentence}
+\newcommand{\subegref}[2]{(\ref{#1}\ref{#2})}
+
+%\newcommand{\beg}{\begin{ex}}
+%\newcommand{\eeg}{\end{ex}}
+%\newcommand{\bseg}{\begin{subex}}
+%\newcommand{\eseg}{\end{subex}}
+
+
+\newcommand{\egstack}[1]{\begin{tabular}[t]{@{}l@{}} #1 \\ \\
+  \end{tabular}}
+
+%Records
+
+\newcommand{\record}[1]{$\left[\mbox{\begin{tabular}{lcl} #1
+\end{tabular}}\right]$} 
+\newcommand{\smallrecord}[1]{$\left[\mbox{\begin{tabular}{@{}l@{}c@{}l@{}} #1
+\end{tabular}}\right]$}
+
+\newcommand{\field}[2]{#1 & = & #2}
+\newcommand{\tfield}[2]{#1 & : & #2}
+\newcommand{\smalltfield}[2]{#1:#2 & &}
+\newcommand{\mfield}[3]{#1=#2 & : & #3}
+\newcommand{\smallmfield}[3]{#1=#2:#3 & &}
+\newcommand{\hfield}[2]{{\sc #1} & & #2}
+
+
+
+
+\begin{document}
+\maketitle
+
+
+\ignore{
+Lecture 3. A theory of abstract entities and illocutionary interaction: analysis in terms of dialogue game boards; Negation
+The semantic ontology is expanded to include abstract entities such as propositions, questions, and outcomes which underpin illocutionary interaction. This provides the background for an analysis of negation that combines aspects of classical, intuitionistic and situation semantics views.
+
+
+}
+
+\frame{\frametitle{Today's Lecture}
+
+\bit
+
+\item Adding abstract entities to the ontology.
+
+\item Basic Illocutionary Interaction in KoS
+
+\item Negation
+\eit
+
+}
+
+\section{Adding abstract entities to the semantic ontology}
+
+\frame{\frametitle{Adding abstract entities to the semantic ontology}
+
+Based on Chapter 3 from Jonathan Ginzburg. 2011. {\it The Interactive
+  Stance: Meaning for conversation}. Oxford University Press.
+
+}
+\begin{frame}\frametitle{Propositions }
+
+\begin{itemize}
+
+
+\item Propositional-like entities,
+more intensional than events/situations, are a necessary ingredient for accounts of
+illocutionary acts, as well as of attitude reports. 
+\item  {\it Sets} of situations,
+although somewhat more fine grained than sets of worlds, also succumb
+to sophisticated variants of logical omniscience (see e.g.\ Soames'
+puzzle (\cite{soames86}).). 
+
+\item Building on a conception articulated 30 years earlier by Austin
+(\cite{austin50}), \cite{barwise-etchemendy87} developed a theory of
+propositions in which a proposition is a structured object
+$prop(s,\sigma)$, individuated in terms of a situation $s$ and a
+situation type $\sigma$. 
+
+\eeen{\item prop$(s,\sigma)$
+is true iff $s : \sigma$ ({\it s is of type} $\sigma$).
+\item prop$(s,\sigma)$
+is false iff $s \not : \sigma$ ({\it s is not of type} $\sigma$).
+
+}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Propositions }
+
+\begin{itemize}
+
+
+\item There are two ways to maintain the insights of an Austinian approach in
+ TTR, implicitly Austinian or explicitly so. 
+
+\item \cite{cooper-rlc} develops
+ the former in which a proposition $p$ is taken to be a record type. 
+
+\item A
+ witness for this type is a situation.
+
+\item On this
+ strategy, a witness is not directly included in the semantic
+ representation. 
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Propositions }
+
+\begin{itemize}
+
+
+\item 
+record types {\it are} competitive in such a
+ role: they are sufficiently fine-grained to
+distinguish identity statements that involve distinct constituents. 
+
+\item In this set up substitutivity of co-referentials (\ex{1}e) and
+cross-linguistic equivalents ((\ex{1}e), the Hebrew equivalent of
+(\ex{1}a)) can be enforced:
+
+\eeen{
+\item Enescu is identical with himself.
+\item Poulenc is identical with himself.
+\item \ba\[ c : Identical(enescu, enescu) \]\ea
+\item \ba\[ c : Identical(poulenc, poulenc) \]\ea
+\item He  is identical with himself.
+\item Enesku zehe leacmo.
+
+}
+
+\end{itemize}
+
+\end{frame}
+
+
+\frame{\frametitle{Lappin Concerns}
+
+TTR satisfies:
+
+\bit
+
+\item Fine grain.
+
+\item Ultra fine grain, but refine grain via equivalence classes.
+
+\item Subtyping: a notion of entailment.
+
+
+\eit
+
+}
+
+
+\begin{frame}\frametitle{Propositions }
+
+\begin{itemize}
+
+
+\item A situational witness for the record type could also be deduced to explicate cases of
+event anaphora, as in(\ex{1}); indeed, a similar strategy will be invoked
+when we discuss nominal anaphora. 
+
+\eeen{\label{ev-ana}
+%\item A: My back tyre exploded. Two minutes later it started to rain.
+
+\item A: Jo and Mo got married yesterday. It was a wonderful occasion.
+
+\item A: Jo's arriving next week. B: No, that's happening in about a
+month. }
+
+\end{itemize}
+
+\end{frame}
+
+\frame[allowframebreaks]{\frametitle{Propositions }
+
+\begin{itemize}
+
+
+\item Here we develop an explicitly Austinian approach, where
+the situational witness is directly included in the semantic
+representation. 
+\item The original Austinian conception was that $s$ is a
+situation deictically indicated by a speaker making an assertion---teasing the semantic difference between implicit and explicit
+witnesses is a difficult semantic task.
+
+\item Some other motivation from negation later on today.
+
+\item 
+propositions can also play a role in characterizing the communicative
+process: in subsequent lectures we will show that ({\it locutionary
+  propositions}) individuated in terms of an utterance event $u_0$ as
+well as to its grammatical type $T_{u_0}$ allows one to simultaneously
+define update and clarification potential for utterances. 
+
+\item In this
+case, there are potentially many instances of distinct locutionary
+propositions, which need to be differentiated on the basis of the
+utterance token---minimally any two utterances classified as being of
+the same type by the grammar.
+
+\end{itemize}
+
+}
+
+\begin{frame}\frametitle{Propositions }
+
+\begin{itemize}
+
+
+\item TTR offers a straightforward way for us to model propositions using
+records. A proposition is a  record of the form in (\ex{1}a). The
+type of propositions is the record type (\ex{1}b):
+
+\eeen{\label{prop}\item
+
+\ba\[sit =$r_0$ \\ sit-type=$p_0$\]\ea
+\item Prop = 
+\ba\[sit : Record\\ sit-type : RecType\]\ea}
+
+\pa
+\item Truth:
+
+\eeen{\item[] A proposition \ba\[sit =$r_0$ \\ sit-type=$p_0$\]\ea is true iff $r_0 : p_0$ }
+
+\end{itemize} \end{frame}
+
+
+\ignore{
+\begin{frame}\frametitle{   Outcomes    }
+
+\bit
+
+\item The class of outcomes was introduced in \cite{gs00}, following
+\cite{portner97}, to describe goals and serve as the denotata of
+imperatives, subjunctives and (certain uses of) infinitives, as in (\ex{1}):
+
+\eeen{\item Sit!
+
+\item Bo demands that Mo sit.
+
+\item Mo's goal is to leave.
+
+}
+
+
+\eit
+\end{frame}
+\begin{frame}\frametitle{     Outcomes  }
+\bit
+\item Outcomes are closely related to propositions, with the main
+difference being temporal---outcomes are intrinsically futurate, but
+with a temporal dimension which is typically unanchored (at speech
+time).
+\item (\ex{1}) illustrates the futurity and the fact
+that an outcome can remain unfulfilled:
+
+\eeen{\item Go home. You can \emph{then} take a nap.
+
+\item Mo requested Bo to resign. He never did.
+
+}
+
+
+
+\eit
+
+\end{frame}
+\begin{frame}\frametitle{    Outcomes   }
+\bit
+
+\item Truth is not applicable to such entities, what is applicable is the
+notion of being {\it fulfilled}. 
+
+
+
+\item We define the type Irrealis---temporal abstracts
+over the class of record types:
+
+\eeen{\item[] Irrealis =$_{def}$ (\begin{avm}\[t :
+Time\]\end{avm})RType
+}
+\eit
+\end{frame}
+\begin{frame}\frametitle{    Outcomes   }
+\bit
+\item We can explicate outcomes in an
+Austinian fashion---as manifest fields for a situation and a
+situation type--abstract, of which a temporal argument has been
+abstracted away: 
+
+\eeen{\label{outc}\item
+
+\ba\[\field{sit}{$r_0$ : Record }\\
+\field{irr-sit-type}{$p_0$ : Irrealis}\]\ea
+\item Outcome =$_{def}$
+\ba\[\tfield{sit = r}{Record}\\
+\tfield{irr-sit-type = T}{Irrealis}\]\ea
+}
+\eit
+
+\end{frame}
+\begin{frame}\frametitle{   Outcomes    }
+
+\bit
+
+\item The fulfilledness conditions of an outcome
+\ba\[\field{sit}{$s_0$}\\ \field{irr-sit-type}{$p_0$}\]\ea involve
+the existence of a situation $s_1$ which is situated temporally
+after $s_0$ such that $s_1$ witnesses an instantiation of $p_0$.
+\item This is the sense in which outcomes are `futurate'. 
+
+
+\eit
+
+\end{frame}
+
+\begin{frame}\frametitle{   Outcomes    }
+
+\eenumsentence{\label{out11}
+\item[] For an outcome o1 = \begin{avm}\[sit = $s_0$\\
+irr-sit-type = $p_0$\]\end{avm}
+
+Fulfillers(o1) =$_{def}$
+
+\begin{avm}\[$s_1$ : Record\\
+$fulfill-time$ : Time\\
+$c_1$ : $anterior(s_0,s_1)$\\
+p = \[sit = $s_1$\\
+sit-type = $p_0$(fulfill-time)\] : True\]\end{avm} }
+
+\end{frame}
+
+\begin{frame}\frametitle{   Outcomes    }
+
+\bit
+
+\item (\ex{1}) exemplifies the content of an imperative use. Included is
+the basic presupposition of such a use, that the desired outcome is
+not fulfilled at speech time:
+
+ \eeen{\item[] Mo: Bo, leave!
+
+ \hskip -30pt \begin{avm}\[spkr : Ind\\
+ addr : Ind\\
+ utt-time : Time\\
+ o = \[sit = s$_0$\\
+               irr-sit-type = (r : \[t :
+Time\])\[c1: leave(b,r.t)\]\] : Outcome\\
+               c2 : $\forall f$ : Fulfillers(o) $\neg$[utt-time =
+               f.fulfill-time : Time ]\\
+cont =  Command(spkr,addr,utt-time,o) : Prop
+\]\end{avm}
+}
+
+
+\eit
+\end{frame}
+}
+
+\begin{frame}\frametitle{  Meets, Joins, and Compound Propositions     }
+\bit
+\item Meet and join types are useful for various applications.
+
+\item  Here defined
+ in the traditional Boolean way:
+
+\eeen{
+\item {\bf Meet/Join types}: if T$_1$ and T$_2$ are types, then so are
+$T_1 \wedge T_2$ and $T_1 \vee T_2$.
+\item  a :  $T_1 \wedge T_2$ ($T_1 \vee T_2$)
+iff $a : T_1$ and (or) $a : T_2$.
+}
+
+\eit
+\end{frame}
+\begin{frame}\frametitle{  Disjunctive Propositions    }
+\bit
+\item a disjunctive witness---one of the situational witnesses,
+depending which of these is indeed a witness:
+
+\eeen{\item[] Given $s_1,s_2 : Rec$ and  $T_1,T_2 : RecType$,\\
+Disjrec$((s_1,T_1),(s_2,T_2))$ $=_{def}$  $s_1 $if $s_1 : T_1$\\
+                                       \hspace{2in}  otherwise:  $s_2 $if $s_2 : T_2$\\
+    \hspace{2in}                                                   \ba\[ \]\ea (the
+                                                      empty record) otherwise
+
+}
+
+
+\eit
+\end{frame}
+\begin{frame}\frametitle{ Disjunctive Propositions    }
+\bit
+
+\item define the disjoined proposition (the
+operation  $\vee_{prop}$)  as follows:
+
+\eeen{\item[] \ba\[sit = $s_1$\\
+         sit-type = $T_1$\]\ea $\vee_{prop}$ \ba\[sit = $s_2$\\
+                                             sit-type = $T_2$\]\ea
+                                             $=_{def}$ 
+\ba\[sit = Disjrec$((s_1,T_1),(s_2,T_2))$ \\
+               sit-type = T1 $\vee$ T2 \]\ea
+}
+
+\item It is fairly straightforward to show that the disjunctive proposition
+is true iff at least one of its disjuncts is true.
+\eit
+
+\end{frame}
+\begin{frame}\frametitle{    Disjunctive Propositions    }
+\bit
+
+\item What of the somewhat contingent identity
+conditions of this disjunctive proposition (or rather its situational
+component)?
+
+\item In  (\ex{1}) the situational anaphor `that' seems able to refer to this split eventuality:
+
+\eeen{
+\item[] A: Bill left town or his bicycle has been stolen.\\ 
+B: Yeah, that must have happened more than five hours ago.
+}
+
+
+\eit
+\end{frame}
+\begin{frame}\frametitle{    Conjunctive Propositions    }
+
+\bit
+\item Either: introduce a
+mereological structure, as commonly assumed in the literature on
+plurals \cite{landman95}
+
+\item Or: define the conjoined proposition (the
+operation  $\wedge_{prop}$)  as follows:
+
+\eeen{\item[] \ba\[sit = $s_1$\\
+         sit-type = $T_1$\]\ea $\wedge_{prop}$ \ba\[sit = $s_2$\\
+                                             sit-type = $T_2$\]\ea
+                                             $=_{def}$ 
+\ba\[sit = $s_1 \cup s_2$ \\
+               sit-type = T1 $\wedge$ T2 \]\ea
+}
+\item Or: $=_{def}$ 
+\ba\[sit = \<$s_1$, $s_2$ \>\\
+               sit-type = T1 $\wedge$ T2 \]\ea
+
+assuming:  \ba\<$s_1$, $s_2$ \>\ea is a witness for  T1 $\wedge$ T2
+(classical Constructive Type Theory)
+\eit
+\end{frame}
+
+\begin{frame}\frametitle{Questions in TTR}
+
+
+
+\begin{itemize}
+
+
+\item Given the existence of Austinian-like propositions and a theory of
+$\lambda$-abstraction given to us by existence of functional types, it is relatively straightforward to develop a
+theory of questions as propositional abstracts in TTR, building on
+earlier work in situation theory in \cite{ginzburg-lp1,gs00}.
+
+%\item No conflation of questions with properties (=denotations of VPs
+  %or common nouns).
+
+\end{itemize} \end{frame}
+
+
+\begin{frame}\frametitle{  Questions as Propositional Abstracts     }
+
+
+\bit
+\item any theory of questions needs to associate an
+abstract-like object with interrogatives to explicate the resolution
+of short answers.
+\eenumsentence{\label{sh-ans11}
+\item A: Who attended the meeting?\\ B: Mo/No students./A friend of Jo's.
+\item A: When did Bo leave?\\ B: Yesterday./At two.
+\item A: Why did Maire cross the road?\\ B: Because she thought no cars
+were passing.
+}
+\item explicating answerhood involves a
+characterization that utilizes in some form an abstract-like object,
+as will be demonstrated below. 
+\item  If questions simply {\it are}
+abstracts, then the fact that abstracts need to be associated with
+interrogative utterances follows automatically.
+
+
+\eit
+\end{frame}
+
+
+\begin{frame}\frametitle{Questions: some simple examples}
+
+\begin{itemize}
+
+\item A question will be a function from records into  propositions:
+
+\eeen{\label{q-ex11}
+
+\item who ran
+
+\item TTR representation---(r :  \ba\[x : Ind\\ 
+c1 : person(x)\]\ea) \ba\[sit =$r_1$\\
+sit-type = \[c : run(r.x)\]\]\end{avm}
+
+ That is, a  function that  maps records r :
+T$_{who}$ = \ba\[x : Ind\\ c1 : person(x)\]\ea into
+propositions of the form \ba\[sit =$r_1$\\
+sit-type = \[c : run(r.x)\]\]\end{avm}
+}
+
+
+
+\end{itemize} \end{frame}
+
+\begin{frame}\frametitle{Questions: some simple examples}
+\eeen{\label{q-ex2}
+
+\item who saw what
+
+\item TTR representation---(r :  \ba\[x : Ind\\ 
+c1 : person(x)\\y : Ind \\ c2 : thing(y)\]\ea) \ba\[sit =$r_1$\\
+sit-type = \[c : saw(r.x,r.y)\]\]\end{avm}
+
+}
+ \end{frame}
+
+\begin{frame}\frametitle{Questions: some simple examples}
+
+\bit
+\item And, by extension, a question will be a 0-ary propositional abstract.
+\eit
+\eeen{\label{q-ex34}
+\item Did Bo run
+
+\item TTR representation---( r : \begin{avm}\[ \ \ \]\end{avm})\ba\[sit =$r_1$\\
+sit-type = \[c : run(b)\]\]\end{avm}. That is, a
+  function that  maps records r :
+T$_0$ = \begin{avm}\[ \ \ \]\end{avm}
+
+into propositions of the form \ba\[sit =$r_1$\\
+sit-type = \[c : run(b)\]\]\end{avm}
+}
+
+
+\end{frame}
+
+\ignore{
+\begin{frame}\frametitle{  Negation in TTR     }
+
+
+\bit
+\item The types  S and T are incompatible =$_{def}$ it is never
+  the case that $s : S$ and $s : T$.
+ 
+\item Further motivation in part 2 of today's lecture.
+
+\eeen{\label{dualtypes}
+
+
+\item {\bf Dual types}:  if T is a type, then so is $\overline{T}$. $a
+  :\overline{T}$ iff for some type S, where S and T are incompatible $a
+  : S$
+
+\item If s : T, then $s \not :  \overline{T}$; if  $s  :
+  \overline{T}$, then $s \not : T$.
+
+\item $\overline{\overline{T}} = T$
+}
+\eit
+\end{frame}
+}
+\ignore{
+\frame[allowframebreaks]{\frametitle{  Positive v. Negative polar questions     }
+\bit
+\item The fact that polar questions are 0-ary abstracts over propositions constructed from
+ records and record types has a consequence that, in contrast to
+approaches where questions are characterized in terms of exhaustive
+answerhood conditions (see \cite{gs97}), positive and negative polar
+interrogatives are assigned distinct denotations.
+
+\item  For instance,
+(\ex{1}a) and (\ex{1}b), due to Hoepelmann 1983, would be assigned the
+0-ary abstracts in (\ex{1}c) and (\ex{1}d) respectively:
+
+\eeen{\item Is 2 an even number?
+
+\item Isn't 2 an even number?
+
+\item \ba (\[ \ \])\[sit = s\\
+sit-type = \[c : EvenNumber(2)\]\]\ea
+
+\item \ba (\[ \ \])\[sit = s\\
+sit-type = \[c : $\overline{EvenNumber(2)}$\]\]\ea
+
+
+}
+\eit
+}
+
+\begin{frame}\frametitle{  Negative Polar questions     }
+\bit
+\item 
+This means  we can explicate the distinct
+presuppositional backgrounds associated with positive and negative
+polar interrogatives. 
+\item Hoepelmann, in arguing for this
+distinction, suggests that the contexts appropriate for a question
+like (\ex{0}a) is likely to be asked by a person recently introduced
+to the odd/even distinction, whereas (\ex{0}b) is appropriate in a
+context where, say, the opaque remarks of a mathematician sow doubt on
+the previously well-established belief that {\em two is even}. 
+\item The
+latter can be tied to the factuality conditions of negative situation
+types, as we will see later on in the lecture.
+\eit 
+\end{frame}
+}
+
+\begin{frame}\frametitle{ Answerhood      }
+\bit
+\item There are a number of notions of answerhood that are of importance to
+dialogue. 
+
+\item We concern ourself here with one that relates to coherence: any
+  speaker of a given language can recognize, independently of domain
+  knowledge and of the goals underlying an interaction, that certain
+  propositions are {\it about} or {\it directly concern} a given
+  question.  \eit
+\end{frame}
+
+
+
+\begin{frame}\frametitle{    Simple Answerhood in TTR   }
+ \eenumsentence{
+
+\item[] Given a question $q$ : $(A)B$:
+
+\item AtomAns(q) =$_{def}$ \begin{avm}\[shortans : A \\
+                                        propans = q(shortans) : Prop\\
+                                        \]\end{avm}
+
+\item NegAtomAns(q) =$_{def}$ \begin{avm}\[shortans : A \\
+                                        propans = $\neg$ q(shortans) : Prop\\
+                                        \]\end{avm}
+
+\item SimpleAns(q) =$_{def}$ AtomAns(q) $\vee$ NegAtomAns(q)
+ }
+
+\end{frame}
+
+\begin{frame}\frametitle{ Simple Answerhood     }
+\bit
+
+\item Simple answerhood covers a fair amount of ground.  But it clearly
+underdetermines aboutness.  
+\item On the polar front, it leaves out the
+whole gamut of answers to polar questions that are weaker than $p$ or
+$\neg p$ such as conditional answers `If r, then p' (e.g.\ \ex{1}a) or
+weakly modalized answers `probably/possibly/maybe/possibly not
+p'(e.g.\ \ex{1}b).  
+\item As far as wh-questions go, it leaves out
+quantificational answers (\ex{1}c-g), as well as disjunctive answers.
+
+
+\eit
+\end{frame}
+
+
+\begin{frame}\frametitle{ Simple  Answerhood v.\ Aboutness     }
+\eeen{\label{corp-ex}
+
+\item Christopher: Can I have some ice-cream then?\\
+Dorothy: you can do if there is any. (BNC, KBW)
+
+\item Anon: Are you voting for Tory? \\ Denise: I might. (BNC, KB?,
+slightly modified)
+
+\item Dorothy: What did grandma have to catch?\\
+Christopher: A bus. (BNC, KBW,
+slightly modified)
+
+\item Rhiannon: How much tape have you used up?\\
+Chris: About half of one side. (BNC, KB?)
+
+\item Dorothy: What do you want on this?\\
+Andrew: I would like some yogurt please. (BNC, KBW,
+slightly modified)
+
+\item Elinor: Where are you going to hide it?\\
+Tim: Somewhere you can't have it.(BNC, KBW)
+
+\item Christopher: Where is the box?\\
+Dorothy: Near the window. (BNC, KBW)
+}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{   Aboutness via disjunction    }
+\bit
+\item One straightforward way to enrich simple answerhood is to consider the
+relation that emerges by closing simple answerhood under
+disjunction. See \cite{gs00} for more discussion.
+
+
+
+\eeen{\label{dc-simp-ans1}
+\item[] $p$ is about $q$ iff $p$ entails a disjunction of simple answers.
+
+}
+
+\eit
+\end{frame}
+
+
+\begin{frame}\frametitle{   Aboutness via disjunction    }
+\bit
+\item If r : SimpleAns(q), then since r : AtomAns(q) or r :
+  NegAtomAns(q), r is a record of the form
+  in (i), p1 then is the value r gets on the propans field:
+
+\bit
+\item[(i)] r = \ba\[shortans = a\\propans = p
+\]\ea
+\eit
+
+\eenumsentence{
+
+\item[] Given a question $q$ : $(A)B$:
+
+\item Aboutness(q) =$_{def}$ \begin{avm}\[r1 : SimpleAns(q)\\
+p1 = r1.propans : Prop \\
+r2 : SimpleAns(q)\\
+p2 = r2.propans : Prop \\
+                                                  propans  : Prop\\
+                                         c : $Entails(propans,
+                                         p1 \vee_{prop} p2)$
+                                         \]\end{avm}
+}
+\eit
+\end{frame}
+
+\ignore{
+\begin{frame}\frametitle{    Resolving Answerhood   }
+\bit
+\item Answerhood in the aboutness sense is clearly distinct from a highly
+restricted notion of answerhood, that of being a proposition that {\it
+resolves} or constitutes {\it exhaustive information} about a
+question.  
+\item This latter sense of answerhood, which is restricted to
+true propositions, has been explored in great detail in the formal
+semantics literature, since it is a key ingredient in explicating the
+behaviour of interrogatives embedded by resolutive predicates such as
+`know', `tell' and `discover'. 
+
+\eeen{\item[] I wondered about who/when/why Bo left, so I asked. Mo
+told me \ldots, so now I know  who/when/why Bo left.
+\item An important issue is what we should do next. We've been
+discussing this in some detail. But the issue hasn't been resolved as
+yet.
+}
+
+
+
+\eit
+\end{frame}
+
+
+\begin{frame}\frametitle{  Resolving Answerhood      }
+
+\bit
+\item The characterization in (\ex{0}) seems to straightforwardly capture
+the resolvedness conditions for a polar question:
+ 
+\eeen{\label{strong-exh2}\item[] $p$ is a strongly exhaustive answer
+to $q$ iff $p$ is true and entails every $p_i$ which is a true
+simple answer to $q$.
+
+\eeen{\item[] Bo knows whether p (whether Mo is asleep).
+Hence, either Jo knows p (that Mo is asleep) or Jo knows $\neg p$ (that
+Mo is not asleep).
+}
+%%
+ % \item polar questions:
+ %
+ % \item wh-questions:
+ %%
+}
+
+\eit
+\end{frame}
+\begin{frame}\frametitle{  Resolving Answerhood      }
+
+\bit
+\item The situation with wh-questions is far more complicated.  As discussed
+in {\it inter alia}
+(\cite{bl85,ginzburg-lp1,asher-alex98,lahiri-book,vanrooy03}), there
+are various pragmatic factors which seem to come into the picture when
+evaluating whether a proposition resolves a question, in a given
+context.  
+\item These include the goals associated with the interaction and
+the knowledge states of the conversational participants.
+
+
+\eit
+\end{frame}
+\begin{frame}\frametitle{    Resolving Answerhood   }
+\bit
+\item An analysis of resolvedness needs to integrate semantic constraints
+that derive directly from the question with agent-relative
+information. (\ex{1}a) defines the relation of being a
+\emph{potentially resolving answer}, being either an atomic answer or the negative
+universal answer.
+
+\item Given a question $q$ : $(A)B$, PotResolvAns(q) =$_{def}$
+  AtomAns(q) $\vee$ \ba\[propans =  $\forall x : A \overline{q(x)}$ : Prop\]\ea 
+
+\eit
+\end{frame}
+\begin{frame}\frametitle{ Resolving Answerhood      }
+\bit
+\item In (\ex{1}),  the agent-relative condition is
+cashed out in terms of a relation, not further analysed here,
+\emph{epistemically-sufficient} that holds between a proposition, an
+agent, and an outcome. 
+
+\item This relation is intended to represent a
+proposition providing information to an agent that is sufficient for
+an outcome to be fulfilled. 
+
+\item
+ResolvingAnswers(q) =$_{def}$ (p resolves q relative to B's desired
+outcome o)
+
+\begin{avm}\[p : TrueProp \\ 
+B: Ind \\
+o : outcome\\
+p1 = PotResolveAns(q).propans : Prop\\
+c2 :  Entails(p,p1)\\
+c3: want(B,o)\\
+c4 : ep-sufficient(p,B,o)
+\]\end{avm}
+\eit
+\end{frame}
+}
+\ignore{
+\begin{frame}\frametitle{ Answering a question with a question}
+
+\bit
+\item The second step is less familiar and already a bit
+trickier. 
+
+\item Many
+queries are responded to with {\it a query}.
+
+\item  A large proportion of these are
+{\it clarification requests}, to be discussed below.
+\item But in addition to these, there are query responses whose content
+directly addresses the question posed, as exemplified in
+(\ex{1}):
+
+\eit\end{frame}
+}
+
+%\subsection{Step 2: long distance answerhood}
+
+
+%need context for two reasons: long distance felicity and post
+%resolvedness infelicity.
+
+%experimental issues
+
+\begin{frame}\frametitle{Answering a question with a question}
+
+
+\eeen{\label{q-ex31}
+\item A: Who murdered Smith? B: Who was in town?
+\item A: Who is going to win the race? B: Who is going to participate?
+\item Carol:        Right, what do you want for your dinner?\\
+ Chris:  What do you (pause) suggest? (BNC, KbJ)
+ \item Chris:        Where's mummy?\\
+ Emma:       Mm? \\
+ Chris:     Mummy? \\
+ Emma:     What do you want her for? (BNC, KbJ)
+
+}
+\end{frame}
+
+
+\frame[allowframebreaks]{\frametitle{Answering a question with a question}
+
+\bit
+\item There has been much work on relations among questions within the
+framework of {\it Inferential Erotetic Logic} (IEL) (see e.g.\
+\cite{wisniewski-la,wisniewski-syn03}), yielding notions of
+q(uestion)--{\it implication}.
+
+\item  From this a natural hypothesis can be
+made about such query responses, as in (\ex{1}a);
+
+\item  A related proposal, 
+ first articulated by \cite{carlson83}, is that
+they are constrained by the semantic relations of {\it dependence}, or
+its converse {\it influence}.  
+
+
+
+\eeen{
+
+
+\item[] $q_2$ {\sf influences}
+ $q_1$ iff any proposition $p$ such that $p$ {\sf
+Resolves} $q_2$, also satisfies $p$ entails $r$ such that $r$ is {\sf About} $q_1$.
+}
+
+\item  Its
+intuitive rationale is this: discussion of $q_2$ will necessarily
+bring about the provision of information about $q_1$
+
+\eit
+
+}
+\ignore{
+\begin{frame}\frametitle{Answering a question with a question}
+
+\bit
+\item Skepticism whether
+dependence that underpins  the requisite
+question/question (e.g.\ \cite{larsson-diss,shaheen09a}).
+
+\item  Instead, with
+(e.g.\ \cite{al03}), they suggest that the requisite relation is
+plan--oriented, as could be articulated in terms of the rhetorical relation {\bf Q(uery)-Elab(oration)} informally
+summarized in (\ex{1}):
+
+\eeen{%\item A: When shall we meet? B: Are you free on the 18th?
+\item[] If Q-Elab$(\alpha,\beta)$ holds between an utterance $\alpha$
+  uttered by A, where $g$ is a goal associated by convention with
+  utterances of the type $\alpha$, and the question $\beta$ uttered by
+  B, then any answer to $\beta$ must elaborate a plan to achieve $g$.
+}
+
+\eit\end{frame}
+}
+\ignore{
+\begin{frame}\frametitle{Answering a question with a question}
+
+\bit
+\item Q-Elab strategy, motivated by interaction in cooperative
+settings, is vulnerable to examples such as (\ex{1}):
+
+ \eeen{\item A: What do you like? B: What do you like? (based on
+   examples from Tom Stoppard, {\it Rozenkrantz and Guilderstern are dead})
+\item A: What is MAM going to do about it? B: What is Aubry?
+}
+
+\eit\end{frame}
+
+}
+\ignore{
+\frame{\frametitle{Query
+responses: some data}
+
+\begin{itemize}
+\item Based on Lupkowski and Ginzburg (forthcoming).
+
+\item Designed after an analysis of 1051 examples of
+query -- query-response pairs obtained from British National Corpus
+(BNC). 
+\item  Initially, examples were obtained with the search engine SCoRE
+\cite{purver01}. Subsequently, cross talk and tag questions were
+eliminated manually. 
+\item 
+we will use $q1$ for the initial question posed and $q2$ for a
+question given as a response to $q1$. The taxonomy was built with attention paid to the
+function of $q2$ in the dialogue. 
+\end{itemize}
+}
+
+
+\begin{frame}[allowframebreaks]\frametitle{Results}
+
+{\scriptsize\begin{table}
+\centering
+\caption{Frequency of question -- question-answer categories (BNC)}
+\label{freq}
+\begin{tabular}{|l|l|l|}\hline
+{\bf Category}        & {\bf Example} & {\bf \% of the Total} \\ \hline \hline
+\texttt{CR}	& A:What's Hamlet about? &  79.16     \\ 
+& B: Hamlet? & \\ \hline
+\texttt{DP}	& A: Does anybody want to buy an Amstrad? &  10.28 (49)   \\ 
+&B: Are you giving it away?& \\ \hline
+\texttt{MOTIV}	&A: What's the matter?   &  3.90   (18)   \\
+&    B: Why?       &\\ \hline
+\texttt{NO ANSW}& A: Yeah what was your answer?  &  2.47  (12)    \\ 
+&   B: What was yours?    & \\ \hline
+\texttt{FORM}	& A: Where's that one then?  &  1.52  (7)    \\ 
+&B: Erm, you know Albert Square?& \\ \hline
+\texttt{QA}	& A: have you tasted this?  &  1.24 (6)\\
+&B: are they nice?&     \\ \hline
+\texttt{IND}	& A: Is that an early Christmas present, that sweater? &  0.85   (4)   \\
+&     B: Do you know how old this sweater is?         &\\ \hline 
+\texttt{IGNORE}	&  A: Just one car is it there?  &  0.57  (3)   \\
+&   B: Why is there no parking there?               &  \\ \hline
+Total	& & 100             \\ \hline
+\end{tabular}
+\end{table}
+}
+\end{frame}
+
+\frame{\frametitle{Query Responses: some conclusions}
+\bit
+\item We assume responses with a dependent question are a semantic option.
+
+\item One concrete task for dialogue analysis: characterize the
+  coherence of the class of query responses.
+
+\item We will offer a partial fulfillment of this task in tomorrow and
+  Friday's lecture.
+
+
+%\item
+
+\eit
+}
+}
+\section{Basic Illocutionary Interaction in KoS}
+
+\frame{\frametitle{Basic Illocutionary Interaction in KoS}
+
+Based on Chapter 4 from Jonathan Ginzburg. 2011. {\it The Interactive
+  Stance: Meaning for conversation}. Oxford University Press.
+
+}
+
+\begin{frame}\frametitle{Dialogue Analysis}
+
+\bit
+
+\item Dialogue analyst's task: describe conventionally acceptable patterns of interaction
+(\emph{protocols}), in terms of sequences of information states.
+
+\item Methodological constraint: compositionality (but as with the
+sentential level not obsessively [cf.\ the need for
+constructionism].
+
+\eit \end{frame}
+
+\frame{\frametitle{Contexts in KoS }
+
+\begin{itemize}
+
+
+\item in KoS, there is actually no single context, for
+reasons that will soon emerge.
+
+\item Instead of a single
+context, analysis is formulated at a level of information states, one
+per conversational participant. 
+
+\item What the typed entities depicted in
+  (\ex{1}),(\ex{2}) amount to is explained  in the next few lectures.
+
+\item The type of information states
+is given in (\ex{1}):
+
+\eeen{\item[] TotalInformationState (TIS) =
+
+\ba
+\[dialoguegameboard : DGBType\\
+private : Private
+\]\ea
+}
+
+
+ 
+
+\end{itemize}
+
+}
+\begin{frame}
+\frametitle{Contexts in KoS }
+
+\begin{itemize}
+
+\item The dialogue gameboard (DGB) represents information
+that arises from publicized interactions and, for now, we can identify
+it as the public context. 
+
+\eeen{\item[]   DGBType (initial definition) =
+
+                 \begin{avm}\[spkr: Ind\\
+                             addr: Ind\\
+                           c-utt : addressing(spkr,addr)\\
+                        Facts : Set(Prop)\\
+                           Moves : list(IllocProp)\\
+                           QUD : poset(Question)\]\end{avm}
+
+}
+
+
+
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Basics of Interaction}
+
+\bit
+\item  The basic units of change
+are mappings between DGBs that specify how one DGB configuration can
+ be modified into another. $\therefore$ \emph{conversational rule}.
+
+\item  The types specifying its domain and its range respectively the
+\emph{preconditions} and  the \emph{effects}.
+
+\eit \end{frame}
+
+
+\begin{frame}\frametitle{Basics of Interaction}
+
+\bit
+
+\item  Notationwise a conversational rule will be
+specified as in (\ex{1}a). We will often notate such a mapping as in
+(\ex{1}b):
+
+\eeen{\item r : \begin{avm}\[\ldots\\
+                             dgb1 : DGBType\\
+                            \ldots\]\end{avm} $\mapsto$
+                            \begin{avm}\[\ldots \\
+                                         dgb2  : DGBType\\
+                                         \ldots\]\end{avm}
+
+
+\item \begin{avm}\[pre(conds) : RType \\
+                  effects : RType \]\end{avm}
+}
+
+\eit \end{frame}
+
+
+
+\begin{frame}\frametitle{Greeting and Parting}
+
+\bit
+
+\item  The conversational rule associated with greeting:
+
+ \begin{avm}\[pre : \[spkr: Ind\\
+                             addr: Ind\\
+                             moves = elist : list(IllocProp)\\
+                                      qud = elist : list(Question)\\
+                                      facts = commonground1 : Prop   \]\\
+                  effects :  \[spkr = pre.spkr : Ind\\
+                               addr = pre.addr : Ind\\
+LatestMove = Greet(spkr,addr):IllocProp\\
+                                    qud = pre.qud : list(Question)\\
+                                    facts = pre.facts : Prop\]
+                  \]\end{avm}
+
+
+
+
+
+\eit\end{frame}
+
+
+\begin{frame}\frametitle{Greeting and Parting}
+
+\bit
+
+\item So we can {\it abbreviate}
+conversational rules as in (\ex{1}a), which for the rule for greeting
+yields (\ex{1}b). 
+\eeen{
+\item  \ba\[pre: PreCondSpec\\
+effects : ChangePrecondSpec\]\ea
+
+\item \begin{avm}\[pre : \[moves = elist : list(IllocProp) \\
+ qud = elist : list(Question) \]\\
+                  effects :  \[
+LatestMove = Greet(spkr,addr):IllocProp\]
+                  \]\end{avm}
+}
+
+\eit\end{frame}
+
+
+
+\begin{frame}\frametitle{Greeting and Parting}
+
+
+\begin{avm}\[preconds &: \[qud = eset : poset(Question)\\
+                            facts :  Set(Prop) \\
+                            f  = MinInteraction(\{spkr,addr\}) : Prop\\
+                            c1 : member(f,facts) \]\\
+                  effects &: \[
+LatestMove = Part(spkr,addr): IllocProp\] \]\end{avm}
+
+ \end{frame}
+
+\begin{frame}\frametitle{Greeting and Parting}
+
+\bit
+\item Counterparting:
+
+\item \begin{avm}\[preconds &:\[
+                             LatestMove =   Part(spkr,addr) : IllocProp\\
+                                      qud = eset : poset(Question)
+                              \]\\
+                  effects &: \[spkr = preconds.addr: Ind\\
+                             addr = preconds.spkr: Ind\\
+LatestMove =  CounterPart(spkr,addr) : IllocProp
+                                  \]
+                  \]\end{avm}
+
+\eit
+ \end{frame}
+
+\begin{frame}\frametitle{Greeting and Parting}
+
+ \begin{avm}\[preconds &:\[
+                             LatestMove =  CounterPart(spkr,addr):IllocProp\\
+                                      qud = eset : poset(Question)
+                                       \]\\
+                  effects &: \[
+LatestMove =  Disengaged(\{spkr,addr\}) : IllocProp\\
+\]\]\end{avm} 
+
+
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Asking, Asserting, Answering, and Accepting}
+
+\bit
+
+\item Broadly speaking queries and assertions are either \emph{issue
+initiating}---they introduce an issue unrelated to those currently
+under discussion--- or they are \emph{reactive}---they involve a
+reaction to a previously raised issue.
+
+\item Accounting for the the reactive ones using
+DGB--based conversational rules is simple. These can also be used to
+explicate the effects \emph{issue initiating} moves have. More on that a bit later.
+\eit\end{frame}
+
+
+\begin{frame}\frametitle{Simple assertion and querying: ingredients}
+
+{\small
+\begin{tabular}{|c|c|}
+  \hline
+  % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
+  {\sf  querying  } & {\sf  assertion }\\ \hline
+  \hline
+  LatestMove =  Ask(A,q) & LatestMove =  Assert(A,p)\\ \hline
+A: push q onto QUD; &  A:  push p? onto QUD;\\
+release turn; & release turn \\ \hline
+B: push  q onto QUD; &  B: push p? onto QUD;\\
+ take turn; &  take turn;\\
+make q---specific &  Option 1: Discuss p?  \\
+utterance & \\
+ take turn.& Option 2: Accept p\\ \hline
+& LatestMove =  Accept(B,p)\\ \hline
+
+& B: increment FACTS with p;\\
+& pop p? from QUD;\\ \hline
+& A: increment FACTS with p;\\
+& pop p? from QUD;\\ \hline
+\end{tabular}
+}
+\end{frame}
+
+\begin{frame}\frametitle{Simple assertion and querying: ingredients}
+
+
+\begin{itemize}
+\item q-specific utterance: an utterance whose content is either a proposition $p$ {\sf
+About} max-qud (\emph{partial answer}) or a question $q_1$ on which
+max-qud {\sf Depends} (\emph{sub-question}).
+
+
+
+
+
+\end{itemize}
+
+ \end{frame}
+
+\begin{frame}[label=qspec]\frametitle{Asking, Asserting, Answering, and Accepting}
+
+\bit
+
+\item Two aspects of this protocol are not query specific:
+
+\ben \item The protocol is like the ones we have seen for greeting
+and parting a 2-person turn exchange protocol (2-PTEP).
+
+\item The specification {\tt make
+  q-specific utterance} is an instance of a general constraint that characterizes
+   the contextual background of reactive queries and
+assertions.
+
+\een
+\eit
+%\hfill\hyperlink{bcm1}{\beamerreturnbutton{Back}}
+\end{frame}
+
+\begin{frame}\frametitle{Asking, Asserting, Answering, and Accepting}
+
+\bit
+\item QSPEC: if $q$ is
+QUD--maximal, then subsequent to this either conversational
+participant may make a move constrained to be $q$--specific (i.e.\
+either About or Influencing $q$.).
+
+
+
+\enumsentence{ {\sf QSPEC}
+
+\begin{avm}\[pre : \[qud = \<q, Q\> : poset(Question)\] \\
+                  effects  :  TurnUnderspec $\wedge_{merge}$\\
+                   \[
+r : AbSemObj\\
+R: IllocRel\\
+LatestMove = R(spkr,addr,r) : IllocProp\\
+                                    c1 : Qspecific(r,q)\\
+                                    \]\]\end{avm}
+}
+\eit
+
+
+
+
+
+
+
+\end{frame}
+
+\begin{frame}\frametitle{Turn Change and abbreviation}
+
+\bit
+\item Turnholder-Underspecified = \ba\[ pre : \[ spkr : Ind\\
+                                                    addr : Ind\]\\
+effects : \[
+PrevAud = \{ pre.spkr,pre.addr\}) : Set(Ind)\\
+spkr : Ind\\
+c1 : member(spkr, PrevAud)\\
+addr : Ind\\
+c2: member(addr, PrevAud)  $\wedge$
+addr $\neq$ spkr\]\]\ea
+
+\eit\end{frame}
+
+\begin{frame}\frametitle{Asking, Asserting, Answering, and Accepting}
+
+\bit
+
+
+\item The only query specific aspect of the querying protocol is:
+
+\eeen{\item[] Ask QUD--incrementation:
+
+\begin{avm}\[pre : \[   q : Question\\
+                             LatestMove = Ask(spkr,addr,q):IllocProp \]\\
+                  effects : \[ qud = \<q,pre.qud\> : poset(Question) \]\]\end{avm}
+                  }
+
+\eit\end{frame}
+
+
+\begin{frame}\frametitle{Asking, Asserting, Answering, and Accepting}
+
+\bit
+
+
+
+
+\item What are the components of the assertion protocol? Not specific to
+assertion is the fact that it is a 2-PTEP; similarly, the discussion
+option is simply an instance of QSPEC.
+
+
+
+\item This leaves two novel components: QUD incrementation with $p?$
+and acceptance.
+
+\eit\end{frame}
+
+\begin{frame}\frametitle{Asking, Asserting, Answering, and Accepting}
+
+
+\eeen{\item[] Assert QUD--incrementation:
+
+\begin{avm}\[preconds &:\[  p : Prop\\
+                       LatestMove = Assert(spkr,addr,p):IllocProp
+                                 \] \\
+                  effects &: \[     qud = \<p?,pre.qud\> : poset(Question)
+\]\]\end{avm}
+                  }
+\end{frame}
+
+\ignore{
+\begin{frame}\frametitle{  Assertion checking     }
+\bit
+
+\item Assertion checking licenses an asking of p? as a follow up of
+asserting p, the checker can be either the original asserter or the
+original addressee. 
+\item An asserter's demand for confirmation does not
+introduce a new issue but it does change the context, forcing a
+response about the issue from B:
+
+
+\eeen{\label{check}
+\item A: Bo is leaving, right? B: Right / \ugh I see / \ugh Aha.
+
+\item A: Bo is leaving, isn't he?  B: Right / \ugh I see / \ugh Aha.
+
+\item A: Bo is leaving. B: I see / Aha.
+}
+
+
+
+
+\eit
+\end{frame}
+\begin{frame}\frametitle{  Assertion checking     }
+
+
+\eeen{\item[] Assertion checking:
+
+\begin{avm}\[pre :\[   p : Prop\\
+                       LatestMove = Assert(spkr,addr,p):IllocProp\\
+                                      qud = \<p?,Q1\> : poset(Question)
+                                    \] \\
+                  effects :  TurnUnderspec  $\wedge_{merge}$ \\ 
+                   \[LatestMove = Check(spkr,addr,p?):IllocProp
+                                   \]\]\end{avm}
+
+
+
+}
+
+
+\end{frame}
+\begin{frame}\frametitle{Asking, Asserting, Answering, and Accepting}
+
+\bit
+
+
+\item
+Acceptance is a somewhat more involved matter because a lot of the
+action is not directly perceptible.
+
+\item The labour can be divided here in two: on the one hand is the
+action brought about by an acceptance utterance (e.g.\ `mmh', `I
+see').
+
+\item The background for an acceptance by B is an assertion by A and
+the effect is to modify LatestMove:
+
+\eit\end{frame}
+
+\begin{frame}\frametitle{Asking, Asserting, Answering, and Accepting}
+
+
+
+\eeen{\item[] Accept move:
+
+\begin{avm}\[preconds &:\[  spkr: Ind\\
+                             addr: Ind\\
+p : Prop\\
+                          LatestMove = Assert(spkr,addr,p):IllocProp\\
+                                     qud = \<p?,preconds.qud\> : poset(Question)
+\] \\
+                  effects &: \[
+spkr = preconds.addr: Ind\\
+addr = preconds.spkr: Ind\\
+LatestMove = Accept(spkr,addr,p) : IllocProp\]\]\end{avm}
+                  }
+\end{frame}
+\begin{frame}\frametitle{  Confirming     }
+\bit
+\item If we distinguish Check moves from Ask moves, we also need
+to distinguish  acceptance from confirmation.
+\item  Checks cannot be
+followed up by acceptance moves, as we saw above. 
+
+
+
+\eeen{\item[] {\sf Confirm move}:
+
+\begin{avm}\[pre :\[   p : Prop\\
+                          LatestMove = Check(spkr,addr,p?):IllocProp\\
+                                     qud = [p?,preconds.qud] : poset(Question)\] \\
+                  effects : \[
+spkr = preconds.addr: Ind\\
+addr = preconds.spkr: Ind\\
+LatestMove = Confirm(spkr,addr,p) : IllocProp\]\]\end{avm}
+                  }
+\eit
+\end{frame}
+}
+
+\begin{frame}\frametitle{Asking, Asserting, Answering, and Accepting}
+
+\bit
+
+
+\item
+The second component of acceptance is the incrementation of FACTS by
+$p$.
+
+\item  This is not quite as straightforward as it might seem: when
+FACTS gets incremented, we also need to ensure that p? gets
+downdated from QUD---only Nonresolved questions can be in QUD
+(see notes for discussion, leads to account of rhetorical questions.). 
+
+\item In order to ensure that this is the case, we need to
+check for all existing elements of QUD that they are not resolved by
+the new value of FACTS.
+
+\item Hence, accepting p involves both an update of FACTS and a
+downdate of QUD---minimally just removing p?, potentially removing
+other questions as well.
+
+\eit\end{frame}
+
+
+
+
+
+\begin{frame}\frametitle{Fact Update/ QUD Downdate}
+\bit
+\item NonResolve is a
+function that maps a partially ordered set of questions $poset(q)$ and a set of propositions $P$
+to a  partially ordered set of questions $poset'(q)$ which is identical to $poset(q)$
+modulo those questions in $poset(q)$ resolved by members of $P$.
+
+\eeen{\label{0fuqd}
+\item[] {\sf Fact Update/ QUD Downdate}
+
+
+\begin{avm}\[pre :\[p : Prop\\
+                             LatestMove = Accept(spkr,addr,p) $\vee$\\ Confirm(spkr,addr,p)\\
+                             qud = \<p?,Q\> : poset(Question) \]\\
+              effects :\[ facts = pre.facts $\cup$ \{ p \} :  Set(Prop)\\
+                          qud =  NonResolve(Q,facts) : poset(Question)  \]  \]\end{avm}
+}
+
+\eit
+
+\end{frame}
+
+\ignore{
+\begin{frame}\frametitle{  QUD Downdating is agent dependent     }
+\eeen{\label{eggs1} \item[]                        
+\noindent B(1): you've obviously started a trend\\
+c(2): no, I don't think. (2a) we're definitely following a trend\\
+B(3): who was in front\\
+c(4): oh all sorts of people - we`ve definitely  bandwaggoned\\
+A(5): mm\\
+c(6): well certainly of of many of of Jo's and your friends surely\\
+A(7): yeah May and Jan, all sorts of people, loads of Bristol people,
+most of Bristol people in fact  \\
+c(8): oh yes, I'm getting definitely getting very long in the tooth\\
+A(9): (laughs)\\
+B(10): I sympathize\\
+c(11): so uh there's no point in my pretending I'm  setting a trend
+                         
+}
+
+\end{frame}
+}
+
+
+
+\begin{frame}\frametitle{What drives the dialogue?}
+
+\bit
+\item Baseline rule: {\sf Free Speech}; when QUD is empty one can say
+whatever one likes.  
+\item This is true when one stands on the proverbial
+soap box or (various caveats) when sitting in a restaurant
+with friends \ldots
+\item \begin{avm}\[ pre :\[
+ qud = \< \> : eset(question)
+\]\\
+effects : TurnUnderspec  $\wedge_{merge}$ \\ \[
+r : AbSemObj\\
+R: IllocRel\\
+LatestMove = R(spkr,addr,r) IllocProp
+\]\]\end{avm}
+\eit
+\end{frame}
+
+\begin{frame}\frametitle{A simple example}
+
+\eenumsentence{\label{ex111}\item A: Hi\\ B: Hi \\ A: Who's coming tomorrow? \\
+B:  Several colleagues of mine (are coming).  \\
+A:  I see. \\
+B:  Mike (is coming) too.  
+
+}
+\end{frame}
+
+\begin{frame}\frametitle{A simple example}
+
+{\footnotesize
+\begin{tabular}{|c|c|c|}
+\hline
+Utt. & DGB Update  & Rule \\ \
+&  (Conditions) & \\
+\hline
+initial & MOVES = $\langle  \rangle$ & \\
+& QUD = $\langle  \rangle$ & \\
+& FACTS = cg1 &\\
+1 &  LatestMove := Greet(A,B)  & {\sf greeting} \\
+2 &  LatestMove := CounterGreet(B,A) & {\sf countergreeting} \\
+3 & LatestMove := Ask(A,B,q0) & {\sf Free
+  Speech} \\
+& QUD : = $\langle q0 \rangle$ & {\sf Ask  QUD--incrementation} \\
+4 & LatestMove := Assert(B,A,p1) & {\sf
+QSPEC} \\
+& (About(p1,q0)) &\\
+& QUD : = $\langle p1?,q0 \rangle$ & {\sf Assert  QUD--incrementation} \\
+5 & LatestMove := Accept(A,B,p1) & {\sf Accept} \\
+& QUD := $\langle q0\rangle$ & {\sf Fact update/QUD downdate} \\
+& FACTS := cg1 $\wedge$ p1 & \\
+6 & LatestMove := Assert(B,A,p2) & {\sf
+QSPEC} \\
+& (About(p2,q0)) & \\
+& QUD : = $\langle p2?,q0 \rangle$ & {\sf Assert  QUD--incrementation}\\
+\hline
+\end{tabular}
+}\normalsize
+
+\end{frame}
+
+\begin{frame}\frametitle{ Assertoric Benchmark 2}
+
+\bit
+\item \textcolor[rgb]{0.98,0.00,0.00}{Assertion benchmark 2: Accommodate disagreement}
+
+
+\eeen{\item[] \label{rtsimpq1}       
+
+A(1): Who will agree to come?
+
+B(2): Helen and Jelle. 
+
+A(3): I doubt Helen will want to come after last time.  
+
+B(4): I think she's forgiven and forgotten.
+
+A(5): OK.           
+}
+
+\eit
+
+\end{frame}
+
+\begin{frame}\frametitle{ Assertoric Benchmark 2}
+
+{\small \begin{tabular}{|c|c|c|}
+\hline
+Utt. & DGB Update  & Rule \\ \
+&  (Conditions) & \\
+\hline
+initial & MOVES = $\langle  \rangle$ & \\
+& QUD = $\langle  \rangle$ & \\
+& FACTS = cg1 &\\
+1 & LatestMove := Ask(A,B,q0) & {\sf Free
+  Speech} \\
+& QUD : = $\langle q0 \rangle$ & {\sf Ask  QUD--incrementation} \\
+2 & LatestMove := Assert(B,A,p1) & {\sf
+QSPEC} \\
+& (About(p1,q0)) &\\
+& QUD : = $\langle p1?,q0 \rangle$ & {\sf Assert  QUD--incrementation} \\
+3 & LatestMove := Assert(A,B,p2) & {\sf QSPEC} \\
+& (About(p2,p1?)) & \\
+& QUD := $\langle p2?,p1?,q0\rangle$ & {\sf Assert  QUD--incrementation} \\
+4 & LatestMove := Assert(B,A,p3) & {\sf
+QSPEC} \\
+& (About(p3,p2?)) & \\
+& QUD := $\langle p3?, p2?,p1?,q0?\rangle$ & {\sf Assert  QUD--incrementation} \\
+5 & LatestMove := Accept(A,B,p3) & {\sf Accept} \\
+& QUD := $\langle p1?,q0\rangle$ & {\sf Fact update/QUD downdate} \\
+& FACTS := cg1 $\cup$ \{p3\} & \\
+\hline
+\end{tabular}
+ }
+\end{frame}
+
+\begin{frame}\frametitle{Query benchmark 4: query responses}
+
+\bit
+\item \textcolor[rgb]{0.98,0.00,0.00}{ Query benchmark4: accommodate sub-questions.}
+
+
+
+
+\eeen{\label{qqq} \item[]     
+
+A(1): Who should we invite for tomorrow?
+
+B(2): Who will agree to come?
+
+A(3): Helen and Jelle and Fran and maybe Sunil.
+
+B(4) : (a) I see. (b) So, Jelle I think.
+
+A(5): OK.
+}
+
+\end{itemize}\end{frame}
+
+\begin{frame}\frametitle{Query benchmark 4: query responses}
+
+{\scriptsize \begin{tabular}{|c|c|c|}
+\hline
+Utt. & DGB Update  & Rule \\ \
+&  (Conditions) & \\
+\hline
+initial & MOVES = $\langle  \rangle$ & \\
+& QUD = $\langle  \rangle$ & \\
+& FACTS = cg1 &\\
+1 & LatestMove := Ask(A,B,q0) & {\sf Free Speech} \\
+& QUD : = $\langle q0 \rangle$ & {\sf Ask  QUD--incrementation} \\
+2 & LatestMove := Ask(B,A,q1) & {\sf
+QSPEC} \\
+& Influence(q1,q0) &\\
+& QUD : = $\langle q1,q0 \rangle$ & {\sf Assert  QUD--incrementation} \\
+3 & LatestMove := Assert(A,B,p1) & {\sf QSPEC} \\
+& (About(p1,q1)) & \\
+& QUD := $\langle p1?,q1,q0\rangle$ & {\sf Assert  QUD--incrementation} \\
+4a & LatestMove := Accept(B,A,p1) & {\sf Accept} \\
+& FACTS := cg1 $\cup$ \{p1\}\ & \\
+& QUD := $\langle q0 \rangle$ & {\sf Fact update/QUD downdate} \\
+4b & LatestMove := Assert(B,A,p2) & {\sf QSPEC} \\
+& (About(p2,q0)) & \\
+& QUD := $\langle p2?,q0\rangle$ & {\sf Assert  QUD--incrementation}\\
+5 & LatestMove := Accept(A,B,p2) & {\sf Accept} \\
+& FACTS := cg1 $\cup$ \{p1,p2\}\& \\
+& QUD := $\langle q0 \rangle$ & {\sf Fact update/QUD downdate} \\
+\hline
+\end{tabular}
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{ Query Benchmark 6 (partially)}
+
+
+\bit
+
+\item Same basic mechanism seems to regulate queries/assertions, across varying sizes of participant sets:
+
+\eeen{ \item Monologue: self answering (\emph{A: Who should we invite?
+    Perhaps Noam.})
+
+ \item Dialogue: querier/responder (\emph{A: Who should we invite?
+    B: Perhaps Noam.})
+
+\item Multilogue: discussed later, maybe.
+}
+
+
+
+\item \textcolor[rgb]{0.98,0.00,0.00}{ Query benchmark 6: ensure
+  approach scales down  to monologue  } 
+
+\eit\end{frame}
+
+\nocite{ginzburg-buke}
+
+\bibliographystyle{natbib}
+\bibliography{newest-jg-fin}
+
+\end{document}
+
+\ignore{
+
+Lecture 3. A theory of abstract entities and illocutionary interaction: analysis in terms of dialogue game boards; Negation
+The semantic ontology is expanded to include abstract entities such as propositions, questions, and outcomes which underpin illocutionary interaction. This provides the background for an analysis of negation that combines aspects of classical, intuitionistic and situation semantics views.
+
+
+}
+

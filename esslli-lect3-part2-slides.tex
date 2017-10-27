@@ -1,0 +1,1240 @@
+\documentclass{beamer}
+
+%\usepackage{qtree}
+
+\usepackage{beamerthemetree}
+\usepackage{color}
+\setbeamertemplate{footline}[frame number]
+\usepackage{graphicx}
+%\usepackage[swedish]{babel} 
+\usepackage[latin1]{inputenc}
+\usepackage{natbib} 
+%\renewcommand{\newblock}{}
+
+
+\title{Negation}
+\author{Jonathan Ginzburg\\
+Universit\'e Paris-Diderot, Sorbonne Paris-Cit\'e\\
+Robin Cooper\\ 
+University of Gothenburg}
+\date{An Introduction to Semantics using Type Theory with Records \\ ESSLLI
+2012 \\ Lecture 3,  part 2}
+
+\AtBeginSection[]
+{
+ \begin{frame}[plain]
+   \frametitle{Outline}
+ \tableofcontents[currentsection]
+ \end{frame}
+}
+
+\newcommand{\backgroundyellow}{\beamertemplateshadingbackground{yellow!40}{magenta!20}}
+\newcommand{\backgroundwhite}{\beamertemplateshadingbackground{white!100}{white!100}}
+
+\newcommand{\ignore}[1]{}
+
+\newenvironment{display}{\begin{center}}{\end{center}}%
+
+\usepackage{times}
+\usepackage{latexsym}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{url}
+
+\usepackage{lingmacros}
+\usepackage{avm}
+\usepackage[latin1]{inputenc} 
+ 
+
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+%\setlength\titlebox{6.5cm}    % Expanding the titlebox
+
+% \title{Negation in dialogue}
+
+% \author{Robin Cooper \\
+% Department of Philosophy, Linguistics \\ and Theory of Science \\
+% University of Gothenburg \\
+% Box 200 \\ 405 30 Göteborg, Sweden \\
+% {\tt cooper@ling.gu.se}
+% \And
+% Jonathan Ginzburg \\
+% Univ. Paris Diderot, Sorbonne Paris Cit\'e\\
+% CLILLAC-ARP (EA 3967)\\
+% 75004 Paris, France\\
+% {\tt yonatan.ginzburg@univ-paris-diderot.fr} }
+ 
+% \date{\today}
+\newcommand{\mq}{{\sc max-qud }}
+%\newcommand{\ignore}[1]{}
+\newcommand{\ben}{\begin{enumerate}}
+\newcommand{\een}{\end{enumerate}}
+\newcommand{\bqt}{\begin{quote}}
+\newcommand{\eqt}{\end{quote}}
+\newcommand{\bit}{\begin{itemize}}
+\newcommand{\eit}{\end{itemize}}
+\newcommand{\bt}{\begin{tabbing}}
+\newcommand{\et}{\end{tabbing}}
+\newcommand{\bd}{\begin{description}}
+\newcommand{\ed}{\end{description}}
+\newcommand{\bv}{\begin{verbatim}}
+\newcommand{\ev}{\end{verbatim}}
+\newcommand{\ba}{\begin{avm}}
+\newcommand{\ea}{\end{avm}}
+\newcommand{\ugh}{\#}
+\newcommand{\whp}{{\it wh}-phrase }
+\newcommand{\eeen}{\eenumsentence}
+
+%Records
+
+\newcommand{\record}[1]{$\left[\mbox{\begin{tabular}{lcl} #1
+\end{tabular}}\right]$} 
+\newcommand{\smallrecord}[1]{$\left[\mbox{\begin{tabular}{@{}l@{}c@{}l@{}} #1
+\end{tabular}}\right]$}
+
+\newcommand{\field}[2]{#1 & = & #2}
+\newcommand{\tfield}[2]{#1 & : & #2}
+\newcommand{\smalltfield}[2]{#1:#2 & &}
+\newcommand{\mfield}[3]{#1=#2 & : & #3}
+\newcommand{\smallmfield}[3]{#1=#2:#3 & &}
+\newcommand{\hfield}[2]{{\sc #1} & & #2}
+
+%Types
+\newcommand{\down}[1]{[\ \!\check{}\ \!#1]}
+
+
+\newcommand{\comment}[1]{\textsf{#1}}
+
+\begin{document}
+\frame[plain]{\titlepage}
+\frame[plain]{\frametitle{Outline}\tableofcontents}
+
+\frame{
+
+\frametitle{References}
+
+\cite{CooperGinzburg2011,CooperGinzburg2011a}
+
+}
+
+\section{Negation in dialogue}
+
+\frame{
+
+\frametitle{Classical view of negation}
+
+\begin{itemize} 
+ 
+\item truth functional connective 
+ 
+\item true $\rightarrow$ false,  false $\rightarrow$ true 
+
+\item in terms of possible worlds: negation maps a set of possible
+  worlds to its complement set
+ 
+\item looking at the behaviour of negation in dialogue shows that this
+  is only part of the story
+
+\item we will suggest that the interpretation of negation involves
+  being able to distinguish positive and negative propositions
+\end{itemize} 
+
+
+}
+
+\frame{
+
+\frametitle{\textit{No} in dialogue}
+
+\textit{Child approaches socket with nail}\\
+\begin{tabular}{ll}
+Parent: &  No. [``Don't put the nail in the socket.''] \\
+& Do(\#n't) you want to be electrocuted? \\
+Child: & No. [``I don't want to be electrocuted.'']\\
+Parent: & No. [``You don't want to be electrocuted.'']
+\end{tabular}
+
+}  
+
+
+
+%\section{Negative questions and answers}
+\frame{
+
+\frametitle{Negative questions}
+\bit
+\item 
+Classically the content of $p?$ is identical to
+that of $\neg p ?$
+\citep{hamblin73,gs97}.
+
+\item Derives from view that the contents of questions are the sets of
+  propositions corresponding to their answers
+
+\item Our view is that while the sets of propositions corresponding to
+  the \textit{answers} to positive and negative
+  questions are the same, the \textit{contents} of the questions are
+  distinct.
+
+\end{itemize}
+
+}
+
+\frame{
+
+\frametitle{Examples of embedded questions}
+
+\begin{itemize} 
+
+\item The child wonders whether 2 is even. \\
+The child wonders whether 2 isn't  even. \\
+(There is evidence that 2 is even) \hfill
+\cite{hoepelmann83}
+\pause \item  Epstein is investigating whether Strauss-Kahn should be
+exonerated \\
+Epstein is investigating whether Strauss-Kahn shouldn't be exonerated \\
+(There is evidence that Strauss-Kahn should be exonerated.) \hfill
+\cite{CooperGinzburg2011,CooperGinzburg2011a}
+
+\pause \item Suggestion that there is reason to believe the positive
+
+\item This holds for negation in assertions as well
+
+\end{itemize}
+}
+
+\frame{
+
+\frametitle{Fillmore's frames and resources}
+
+\begin{itemize} 
+ 
+\item Her father doesn't have any teeth 
+ 
+\pause 
+\item \# Her husband doesn't have any walnut shells
+
+\pause 
+\item Your drawing of the teacher has no nose/\#noses
+
+\pause 
+\item The statue's left foot has no \#toe/toes
+ 
+\end{itemize} 
+
+\cite{Fillmore1985}
+
+} 
+
+\frame{
+
+\frametitle{Creating an expectation within a dialogue}
+
+\textit{Resources local to a dialogue}
+
+\bigskip
+
+A: My husband keeps walnut shells in the bedroom.\\
+B: Millie's lucky in that respect. Her husband doesn't have any
+  walnut shells.
+
+}
+
+\frame{
+
+\frametitle{Distinguishing between positive and negative propositions}
+
+\begin{itemize} 
+ 
+\item The content of \textit{no} is different 
+ 
+\item The raising of a contrary expectation is only with negative
+  propositions
+
+\pause \item Some languages have different words for \textit{yes} depending
+  on positive and negative propositions
+ 
+\end{itemize} 
+
+}
+
+\frame{
+
+\frametitle{Different words for \textit{yes}}
+
+\begin{itemize} 
+ 
+\item 
+\textit{French}\\
+A: Marie est une bonne \'etudiante B: Oui / \ugh Si.\\
+A: Marie n'est pas une bonne \'etudiante B: \ugh Oui /  Si.
+
+
+ 
+\item German \textit{ja/doch}, Swedish \textit{ja/jo}, \ldots 
+ 
+\end{itemize} 
+
+}
+
+\frame{
+
+\frametitle{Possible worlds and the positive/negative distinction}
+
+\begin{itemize} 
+ 
+\item If a proposition is a set of possible worlds, the negation is
+  the complement of that set 
+ 
+\pause \item No way of distinguishing ``positive'' and ``negative'' sets of
+  possible worlds
+
+\pause \item Perhaps negation is a syntactic rather than a semantic property
+(cf recent work by Farkas and Roelofsen)
+
+\pause \item There are lots of ways of making a negative sentence,
+\textit{not}, negative quantifiers (\textit{no}, \textit{none},
+\textit{nothing}), French \textit{(ne)\ldots pas/point/rien}:
+\textit{je n'en sais rien/ j'en sais rien} (``I know nothing about
+it''), Swedish words for \textit{not}:  \textit{inte, ej}
+
+\pause \item What makes all these morphemes into morphemes that create
+negative sentences?
+
+\pause \item Answer:  the semantic property that they introduce
+negative propositions
+ 
+\end{itemize} 
+
+}
+
+    
+  
+
+
+
+\frame{
+
+\frametitle{Three desiderata for an adequate theory of negation}
+
+\begin{description}
+
+\item[Desideratum 1] $p?$ and $\neg p?$ 
+are distinct though their answers correspond to the same set of propositions
+
+\pause \item[Desideratum 2] $\neg p$ implies that there is evidence
+that $p$
+
+\pause \item[Desideratum 3] positive and negative propositions can be
+distinguished 
+
+
+
+\end{description}
+}
+% \frame{\frametitle{p? $\neq \neg p ?$}
+
+% \begin{itemize}
+
+% \item (\ex{1}a,b)
+% seem to describe distinct investigations, the
+% first by someone potentially even handed, whereas the second by
+% someone tending towards DSK's innocence.
+% (cf. original inspiration by )
+
+% \eeen{%
+% \item 
+%  }
+% \end{itemize} 
+
+% }
+
+% \frame{
+
+% \frametitle{Responses to (`Did..?')/ (`Didn't..?') }
+
+% \textit{BNC}
+
+% \medskip
+
+% \begin{tabular}{|p{.17\textwidth}|p{.17\textwidth}|p{.17\textwidth}|p{.17\textwidth}|p{.17\textwidth}|}\hline
+% Question type        & Positive answer & Negative answer & No answer &Total\\ \hline \hline
+% \texttt{Positive polar}	& 53\% &  31\% & 16\% & n = 106     \\ \hline
+% \texttt{Negative polar}	& 23\% &  54\% & 22\% & n = 86  \\ \hline
+% \end{tabular}
+
+% \medskip
+
+% \pause almost mirror image distribution
+
+
+% }
+
+%\section{Negation in simple dialogue}  
+% \frame[allowframebreaks]{\frametitle{Today's Talk}
+% \begin{itemize} 
+ 
+% \item \cite{gs00}: polar  questions as 0-ary propositional
+% abstracts, combined with a theory of
+% negative situation types (\cite{cooper98}).
+% \item This enables a principled distinction between PPInt and NPInt denotations and presuppositions
+% while capturing the identity of resolving answerhood conditions.
+% \item 
+% Their account relied on a complex, {\it ad hoc} notion of simultaneous
+% abstraction.
+% \item {\bf Today}:
+% \bit
+% \item We consider a number of phenomena relating
+% negation and dialogue.
+% \item We develop an account of
+% propositional negation in the framework of Type Theory with Records (TTR)
+% \cite{cooper2005,cooper-ddl}. 
+
+% \item This account extends the earlier results
+% in a type theoretic framework, based on standard notions of negation
+% and abstraction.
+% \item First pass account of the
+% coherence of propositional negation in dialogue---negation is a
+% dialogical notion requiring a rich notion of relevance.
+% \eit
+% \end{itemize} 
+ 
+% }
+
+% \frame{
+
+% \frametitle{Negation in dialogue}
+
+% \begin{itemize} 
+ 
+% \item \mbox{}
+%  [child B approaches socket with nail]\\
+% A:  No. 
+%  Do(\#n't) you want to be electrocuted? \\
+% B: (3) No. \\
+% A: (4) No.  
+ 
+ 
+% \pause 
+% \item
+% A:  Did Merkel threaten Papandreou?\\
+% B:  No. \\
+% A:  That can't be true. \\
+% B/C: No.
+
+
+% \pause 
+% \item 
+% A: Marie est une bonne \'etudiante B: Oui / \ugh Si.\\
+% A: Marie n'est pas une bonne \'etudiante B: \ugh Oui /  Si.
+
+% \end{itemize}
+
+% }
+
+
+
+% \frame{
+
+% \frametitle{
+
+% \begin{itemize} 
+ 
+% \item {\bf Positive/negative polar question distinction}: \label{desideratum:posnegq}\\
+% \item {\bf Constructive negation and negative situation
+%   types}: $s : \neg T$  implies $s : T'$, with T' a positive type that
+% precludes T \label{desideratum:precl}\\
+% \pause 
+% %viz. asks for evidence for the existence of a positive situation type alternative
+% %to the situation type of $p$\\
+% \pause \item {\bf Negative propositions}:  \label{desideratum:NegProp}\\
+% \pause \item {\bf Equivalence but non-identity of $p$ and $\neg \neg p$}.\label{desideratum:non-id}
+
+% \end{itemize} 
+
+% }    
+
+% \frame{
+
+% \begin{itemize} 
+ 
+% \item {\bf Constructive negation and negative situation
+%   types}: $s : \neg T$  implies $s : T'$, with T' a positive type that
+% precludes T \label{desideratum:precl}\\
+
+% \item Additional motivation for
+% this is provided by complements of naked infinitive clauses discussed
+% below,
+% \item  and  the large body of work on the processing of negation, reviewed
+% recently in \cite{kaup2006rev} and refined recently in \cite{tian10},
+% offering experimental evidence that
+% comprehending a negative sentence (e.g.\ \textit{Sam is not wearing a hat})
+% involves simulating a scene consistent with the negated sentence.
+
+% \end{itemize} 
+
+% }    
+
+\section{Negation of types}
+
+\frame{
+
+\frametitle{Negation of types}
+
+\begin{itemize} 
+ 
+\item if $T$ is a type then $\neg T$ is a type
+ 
+\pause 
+\item distinguishes negative types from positive ones
+
+\pause 
+\item $\mathit{cl}_{\neg}(\textit{RecType})$ -- type of the closure of
+  record types under negation
+
+\pause 
+\item $\mathit{map}_{\neg}(\textit{RecType})$ -- type of singly
+  negated record types
+
+\pause 
+\item
+$\mathit{cl}_{\neg}(\mathit{map}_{\neg}(\textit{RecType}))$ -- type of
+negated record types
+ 
+\end{itemize} 
+  
+}
+
+\frame{
+
+\frametitle{Witnesses for negative types}
+
+\begin{itemize} 
+ 
+\item $a:\neg T$ iff there is some $T'$ such that $a:T'$  and $T'$
+  precludes $T$
+ 
+\pause \item $T'$ \textit{precludes} $T$   iff either
+
+\begin{enumerate} 
+ 
+\item $T=\neg T'$
+ 
+\item or, $T,T'$ are non-negative and there is no $a$ such that $a:T$ and $a:T'$ for any
+  models assigning witnesses to basic types and ptypes 
+ 
+\end{enumerate}
+
+\pause \item \textit{Remark 1:}  $a:\neg\neg T$ iff $a:T$
+
+\pause \item \textit{Remark 2:} $a:T\vee\neg T$ is \textit{not} necessary --
+  $a$ may not be of type $T$ and there may not be any type which
+  precludes $T$ either.
+
+\pause \item hybrid classical and intuitionistic negation
+   
+ 
+\end{itemize} 
+  
+}
+
+\frame{
+
+\frametitle{Witnesses for negative types refined}
+
+\begin{itemize} 
+ 
+\item  $a:\neg T$ iff there is some $T'$ such that $a:T'$  and $T'$
+  precludes $T$ \textit{and there is some expectation that $a:T$}
+ 
+\item some question of whether this addition should be included here
+  or in some theory of when agents are likely to make judgements 
+ 
+\end{itemize} 
+
+}
+
+\frame{
+
+\frametitle{Expectations}
+
+\begin{itemize}
+
+\item What does it mean for there to ``be some expectation''?  
+
+\item Recall the kind of
+functions we used to predict completions of events, grammar rules:
+dependent types.
+
+\item Discussion relating these dependent types to Aristotelian enthymemes
+in 
+  \citep{Breitholtz2010,BreitholtzCooper2011}
+
+\item Set of such dependent types are part of general or local resources. 
+  
+\end{itemize}
+
+}  
+
+\frame{
+
+\frametitle{Austinian propositions}
+
+\begin{itemize} 
+ 
+\item 
+\record{\tfield{sit}{\textit{Rec}} \\
+              \tfield{sit-type}{$\mathit{cl}_{\neg}$(\textit{RecType})}} -- type of Austinian propositions 
+\pause 
+\item \record{\field{sit}{$s$} \\
+                      \field{sit-type}{\smallrecord{\tfield{c$_{\mathrm{run}}$}{run(sam)}}}} -- an Austinian proposition
+                    
+
+
+\pause 
+\item \record{\tfield{sit}{\textit{Rec}} \\
+              \tfield{sit-type}{$\mathit{cl}_{\neg}$($\mathit{map}_{\neg}$(\textit{RecType}))}}
+            -- type of negative Austinian propositions,
+            \textit{NegProp}
+
+\pause \item \record{\tfield{sit}{\textit{Rec}} \\
+              \tfield{sit-type}{\textit{RecType}}}  -- type of
+            positive Austinian propositions, \textit{PosProp}
+
+
+ 
+\end{itemize} 
+
+}
+
+
+
+
+% \frame{
+
+% \frametitle{Austinian witness}
+
+% \begin{itemize} 
+ 
+% \item If $T$ is a record type, then $s$ is an Austinian witness for
+%   $T$ iff $s:T$ 
+ 
+% \item If $T$ is a record type, then $s$ is an Austinian witness for
+%   $\neg T$ iff $s:T'$ for some $T'$ incompatible with $T$
+
+% \item If $T$ is a type $\neg\neg T'$ then $s$ is an Austinian witness for $T$ iff $s$
+% is an Austinian witness for $T'$
+
+% \item The intuitions behind clauses 2--3 are based on an
+% intuitive account of witnessing intuitionistic negation.  
+% \end{itemize} 
+
+% }
+
+\frame{
+
+\frametitle{Negation of Austinian propositions}
+
+\begin{itemize} 
+ 
+\item \record{\field{sit}{$s$} \\
+                      \field{sit-type}{$T$}} 
+ 
+\item \record{\field{sit}{$s$} \\
+                      \field{sit-type}{$\neg T$}} 
+ 
+\end{itemize} 
+
+}
+
+\frame{
+
+\frametitle{Truth for Austinian propositions}
+
+An Austinian proposition $p$ is \textit{true} iff
+$p.\textrm{sit}:p.\textrm{sit-type}$
+
+}
+
+%\section{Alternatives}
+
+% \frame{
+
+% \frametitle{Perception complements and infonic negation}
+
+% \begin{itemize} 
+ 
+% \item Ralph saw Mary serve Bill 
+ 
+% \pause 
+% \item Saw(R,s) $\wedge$ s : Serve(m,b)
+
+% \pause 
+% \item Ralph saw Mary not serve Bill
+
+% \item Ralph saw Mary not pay her bill
+
+% \item Saw(R,s) $\wedge$ s : $\neg$ Serve(m,b)
+
+% \item Saw(R,s) $\wedge$ $s \not: Serve(m,b)$
+ 
+% \end{itemize} 
+
+% }
+
+% \frame{
+
+% \frametitle{Alternative positives for infonic negation}
+
+% \cite{cooper98}
+
+% \begin{itemize} 
+ 
+% \item $\forall s,\sigma [s : \overline{\sigma} \ \hbox{\rm implies}$
+%   \\ \hspace*{2em} $\exists 
+% (\mathit{Pos})\psi[ s : \psi \ \ \hbox{\rm and} \ \  \psi \Rightarrow 
+% \overline{\sigma}]]$
+% \item $\forall s,\sigma [s : \overline{\sigma} \ \hbox{\rm implies}$
+%   \\
+% \hspace*{2em} $\exists 
+% (\mathit{Pos})\psi[ s : \psi \ \ \hbox{\rm and} \ \ \psi >  \sigma]]$
+
+ 
+% \end{itemize} 
+
+
+% }
+
+% \frame{
+
+% \frametitle{Alternative positives in terms of Austinian
+%   witnesses}
+
+% \textit{Revise definition of Austinian witness:}
+
+% \medskip
+
+% If $T$ is a record type, then $s$ is an Austinian witness for
+%   $\neg T$ iff $s:T'$ for some $T'$ incompatible with $T$ \textit{and there is
+%   some $T''$ such that $s:T''$ and $s:T''$ creates an expectation that
+%   $T$ is non-empty}
+
+% \bigskip
+
+% \begin{itemize}
+
+% \item What does it mean to ``create an expectation''?  
+
+% \item Recall the kind of
+% functions we used to predict completions of events, grammar rules:
+% dependent types.
+
+% \item Discussion relating these dependent types to Aristotelian enthymemes
+% in 
+%   \citep{Breitholtz2010,BreitholtzCooper2011}
+
+% \item Set of such dependent types are part of general or local resources. 
+  
+% \end{itemize}
+% }
+
+   
+        
+
+
+% \section{Positive and negative questions, negative answers}
+
+% \frame[allowframebreaks]{
+% \frametitle{Questions as functions returning Austinian propositions}
+
+% \begin{itemize} 
+% \item \textit{Do (Don't)  you want to be electrocuted?}
+
+% %\pause 
+% \item  $\lambda r$:\textit{Rec} (\ba\[sit = s\\sit-type = \[c
+%   : want(B(electrocute(B)))\]\]\ea)
+
+% %\pause 
+% \item
+%  $\lambda r$:\textit{Rec} (\ba\[sit = s\\sit-type = \[c
+%   : $\neg$want(B(electrocute(B)))\]\]\ea)
+
+% %\pause 
+
+% \item \textit{PosPolQ} = \ba \[ p : PosProp\\ 
+%                                               q : (Rec)Prop$_{p}$\] \ea
+
+% %\textit{Rec}$\rightarrow$\textit{PosProp}
+
+% \item \textit{NegPolQ} = \ba \[ p : NegProp\\ 
+%                                               q : (Rec)Prop$_{p}$\] \ea
+
+% %\textit{Rec}$\rightarrow$\textit{NegProp}
+
+% %\pause 
+% \item $T$ is an \textit{atomic answer} for $Q$ iff for some $r$,
+%   $Q(r)=T$.  For polar questions there is exactly one simple answer.
+
+% \end{itemize}
+
+% }
+
+% \frame{
+
+% \frametitle{Relating to negative questions}
+
+% \begin{itemize}
+% \item  
+% Wondering about \ba $\lambda r$:\textit{Rec} (\[sit = s\\sit-type =
+% $\neg$T\])\ea  -- wondering about whether (or presupposing that) $s$ has 
+% characteristics that typically involve $T$ being the case
+% \begin{itemize} 
+ 
+% \item I wonder whether two isn't even 
+ 
+% \item I wonder whether you don't want to electrocute yourself 
+ 
+% \end{itemize} 
+  
+% \pause \item  The {\it
+%   simple answerhood} relation of \cite{gs00} which we saw yesterday ensures
+% that the exhaustive answer to p? are $\{p,\neg p\}$, whereas to $\neg
+% p?$ they are $\{\neg p, \neg \neg p\}$, so the exhaustive answers are
+% equivalent.
+
+ 
+% \end{itemize} 
+
+% }
+
+% % \frame{
+
+% % \bit
+% % \item Assuming that witnessing $\neg T$
+% % involves the existence of $T''$ such that $s:T''$ and $T''>T$. \ldots
+% % \item 
+% % \eit
+% % }
+% % \section{Characterizing contexts for negation}
+
+% \frame{
+
+% \frametitle{Content for \textit{no} in different dialogue contexts}
+% \bit
+% \item (context: child about to put nail in socket) Parent: No!
+
+% \item \textit{no} in response to a predicted outcome of an observed
+%   event: 
+
+% \item cf reasoning about the game of Fetch
+% \end{itemize}
+
+% }
+
+% \frame{
+
+
+%  \begin{avm}
+%  \avml\[
+%  phon : {\tt no }\\
+%  cat.head = {\it interj} : syncat\\
+% {\sc arg-st} = \< \ \> : elist(synsem)\\
+% dgb-params : \[ spkr : Ind\\
+% addr : Ind\\
+% o = \[sit = s\\
+% irr-sit-type = \\ (r : \[t : Time\]) T \] : Outcome \]\\
+% cont= Want(spkr,$\neg$ Fulfill(o) )   \]\avmr
+%  \end{avm}
+
+% \medskip
+
+% Or is the content: $\neg$ Want(spkr, Fulfill(o) ) ?
+%  }
+
+
+% \frame[allowframebreaks]{
+% \frametitle{Content for \textit{no} in different dialogue contexts}
+% \bit
+
+% \item content of \textit{no} is $\neg T$ if MaxQUD : PosQ and $T$ is an
+% atomic answer for MaxQUD
+
+%  \item content of \textit{no} is $T$ if MaxQUD : NegQ and $T$ is
+% an atomic answer for MaxQUD
+
+% \item EnsureNeg(p,maxqud) $\leftrightarrow$   p =  q([]) : NegProp;
+%   otherwise q([]) : PosProp and p = $\neg q([])$
+
+ 
+
+% \begin{avm}
+%  \avml\[
+%  phon : {\tt no }\\
+%  cat.head = adv[+ic] : syncat\\
+% {\sc arg-st} = \< \ \> : elist(synsem)\\
+%  dgb-params.max-qud : PolQuestion\\
+%  cont : NegProp \\ 
+%  c1: EnsureNeg(cont, maxqud)
+%    \]\avmr
+%  \end{avm}
+ 
+
+
+
+
+% \eit
+% }
+
+% \ignore{
+% \frame{
+
+% \frametitle{Content for \textit{no} in different dialogue contexts}
+% \bit
+% \item \textit{no} in response to a predicted outcome of an observed
+%   event: content is $\neg T_{\mathrm{predicted}}$
+
+% \pause \item content of \textit{no} is $\neg T$ if MaxQUD : PosQ and $T$ is an
+% atomic answer for MaxQUD
+
+% \pause \item content of \textit{no} is $T$ if MaxQUD : NegQ and $T$ is
+% an atomic answer for MaxQUD
+
+% \pause \item content of \textit{no} is $\neg T$ if content of previous
+% utterance is $T$ and $T$ : \textit{PosProp}
+
+% \pause \item content of \textit{no} is $T$ if content of previous
+% utterance is $T$ and $T$ : \textit{NegProp}
+
+% \pause \item \textit{Remark}: content of \textit{no} is always of type \textit{NegProp}
+
+% \end{itemize}
+
+% % \begin{avm}
+% % \avml\[
+% % phon : {\tt no }\\
+% % cat.head = adv[+ic] : syncat\\
+% % %{\sc arg-st} = \< \ \> : elist(synsem)\\
+% % dgb-params.max-qud : PosQ\\
+% % cont=$\neg$(dgb-params.m : NegProp \\ 
+% % c1 : SimpleAns(cont,max-qud)
+% %    \]\avmr
+% % \end{avm}
+% }
+
+
+
+%\frame{
+
+% \frametitle{`No!' and `No.'}
+% \bit
+% \item NegVol `no' merely presupposes
+% an event/situation concerning which the speaker can express her
+% disapproval.
+
+% \item Propositional `No'  can be specified as in (\ex{1}): `No' resolves to a negative
+% proposition, which is a {\it simple answer} to MaxQUD.
+
+% \eenumsentence{\label{yes124}\item[]
+% \begin{avm}
+% \avml\[
+% phon : {\tt no }\\
+% cat.head = adv[+ic] : syncat\\
+% %{\sc arg-st} = \< \ \> : elist(synsem)\\
+% dgb-params.max-qud : PolQuestion\\
+% cont : NegProp \\ 
+% c1: (cont = maxqud([])) $\vee$ \\ 
+% $ maxqud([]) \not : NegProp \wedge cont = \neg maxqud([])$
+%   \]\avmr
+% \end{avm}
+% }
+
+% \eit
+% }
+
+% \frame{
+
+% \frametitle{polar-question QUD--incrementation}
+
+% \bit
+% \item Propositional `No.' uses require the QUD--maximality of
+% p?, where $p$ is the proposition they affirm/negate.
+% \item  In KoS
+% \cite[for example]{ginzburg-nlphandbook,ginzburg-buke}, the felicity
+% of these particles in a post-assertoric or post-polar query context is
+% assured by the following update rule:
+
+
+% \begin{avm}\[pre :   \[spkr: Ind\\
+%                              addr: Ind\\
+%                              p : Prop\\
+%                            LatestMove.cont = \\
+%                            Ask(spkr,addr,p?) \\ $\vee$ Assert(spkr,addr,p) : IllocProp\\
+%                                      \] \\
+%                   effects : \[  qud =  \<p?, pre.qud \> :
+%                   list(Question) \]
+%                   \]\end{avm}
+
+% \eit
+
+% }
+%}}
+
+\ignore{
+\frame{
+\frametitle{The coherence of negative sentences}
+\begin{itemize} 
+
+\item Negation triggered by a wide range of dialogical
+  sources, including domain knowledge based expectations, 
+self- and other- repair:
+ 
+\eeen{\item The army will only confirm that missiles have fallen in Israel \ldots
+It was not a chemical attack \ldots     [S2B-015\#106]  (Pitts' [137] )
+
+%\item  I haven't got enough hours in the day \ldots unless I start teaching at midnight.  
+%But the studio's not open then.    [S1A-083\#170] (Pitts' [141] )
+\item  I might have to do the after-dinner speech at our annual, well, not annual,  
+our Christmas departmental dinner.   (Pitts' [112] )
+
+\item A:  there's lots of deers and lots of rabbits.  
+  B:  It's not deers - it's deer.    [S1A-006\#261] (Pitts' [107] )}
+
+ \item[] Examples from \cite{pitts-diss}, who collected them
+from the International Corpus of English (GB)
+\end{itemize} 
+}
+
+
+
+\frame{
+\frametitle{Negation and Relevance}
+\bit
+\item Given a dialogue gameboard dgb0, a negative proposition $\neg
+  p$ is felicitous in dgb0 iff the 
+  move `A ask q' is relevant in dgb0 where About(p,q) holds.
+
+\item presupposes rich dialogical notion of relevance (see e.g.\
+  Ginzburg PozDial 2010, Ginzburg 2012) or question raising (e.g.\
+  {\it Inferential Erotetic Logic} (IEL),  \cite{wisniewski-la}).
+\eit
+
+}
+}
+\ignore{
+\frame{
+\frametitle{Metalinguistic negation example}
+\bit
+\item In KoS an utterance $u$ by A in which $u1$ is a sub--utterance of $u$
+permits B to accommodate in $u$'s immediate aftermath the issue
+(\ex{1}a). (See Ginzburg, Fern\'andez, and Schlangen, tomorrow)
+\item  This is {\it inter alia} the basis for explaining why
+(\ex{1}b) is a coherent follow up to (\ex{1}a) 
+
+
+
+\eeen{\item What form did $A$ intend in $u$1?
+\item A: There's lots of deers there.
+\item B: Deers? (= Did  $A$ intend the form `deers' in $u1$?)
+\item  B:  It's not deers - it's deer.}
+
+\item (\ex{0}d) is About (\ex{0}a) and, hence, felicitous.
+\eit
+}
+}
+
+
+% \frame{
+
+% \frametitle{
+
+% \begin{itemize}
+
+% \item \textit{no} as agreement to negative assertion
+
+% Cont (`No) = \neg maxqud([]) if  maxqud([]) : PosProp
+
+% Cont (`No) =  maxqud([]) if  maxqud([])  : NegProp
+
+
+
+% \eit
+% }
+
+% \frame[allowframebreaks]{
+
+% \frametitle{polar-question QUD--incrementation}
+
+% \bit
+% \item Propositional `No.' uses require the QUD--maximality of
+% p?, where $p$ is the proposition they affirm/negate.
+% \item  In KoS
+% \ignore{\cite[for example]{ginzburg-nlphandbook,ginzburg-buke}}, the felicity
+% of these particles in a post-assertoric or post-polar query context is
+% assured by the following update rule:
+
+% \newpage
+
+% \begin{avm}\[pre :   \[spkr: Ind\\
+%                              addr: Ind\\
+%                              p : Prop\\
+%                            LatestMove.cont = \\
+%                            Ask(spkr,addr,p?) \\ $\vee$ Assert(spkr,addr,p) : IllocProp\\
+%                                      \] \\
+%                   effects : \[  qud =  \<p?, pre.qud \> :
+%                   list(Question) \]
+%                   \]\end{avm}
+
+% \eit
+
+% }
+% \frame{
+% \frametitle{The coherence of negative sentences}
+
+% \bit
+
+
+% \item What of the VP adverb `not', in other words sentential
+% negation?
+% \item  The update rule we just saw provides a class of
+% contexts in which clauses of the form `NP $\neg$ VP' are felicitous,
+% namely ones in which p? is \mq, where p = cont(`NP VP'). 
+% \item However, this
+% characterization is partial, as demonstrated by examples like
+% (\ex{1}), all drawn from (\ignore{\cite{pitts-diss}}), who collected them
+% from the International Corpus of English (GB)
+
+
+% \eit
+% }
+
+
+
+% \frame{
+
+% \begin{itemize} 
+ 
+% \item The army will only confirm that missiles have fallen in Israel \ldots
+% It was not a chemical attack \ldots     [S2B-015\#106]  (Pitts' [137] )
+
+% \item  I haven't got enough hours in the day \ldots unless I start teaching at midnight.  
+% But the studio's not open then.    [S1A-083\#170] (Pitts' [141] )
+
+% \item A:  there's lots of deers and lots of rabbits.  
+%   B:  It's not deers - it's deer.    [S1A-006\#261] (Pitts' [107] )
+% \item  I might have to do the after-dinner speech at our annual, well, not annual,  
+% our Christmas departmental dinner.   (Pitts' [112] )
+
+ 
+% \end{itemize} 
+
+
+% }
+
+% \frame{
+
+% \begin{itemize}
+
+
+% \item Given a dialogue gameboard dgb0, a negative proposition $\neg
+%   p$ is felicitous in dgb0 iff the 
+%   move `A ask q' is relevant in dgb0 where About(p,q) holds.
+
+% \item presupposes rich dialogical notion of relevance (see e.g.\
+%   Ginzburg PozDial 2010, Ginzburg 2012) or question raising (e.g.\
+%   {\it Inferential Erotetic Logic} (IEL),  \cite{wisniewski-la}).
+
+% \end{itemize}
+
+% }
+
+% \frame{
+% \bit
+% \item A key component of the analysis in IEL is
+% the use of {\it m(ultiple)-c(onclusion) entailment}---the truth of a set X of premises
+% guarantees the truth of at least one conclusion. 
+% \item  {\it
+% question evocation} can be defined as in (\ex{1}):
+
+% \eeen{\item[] $X$ evokes a question $Q$ iff $X$ mc-entails $dQ$, the set
+%   of atomic answers of $Q$, but for no $A\in dQ, X
+%   \models A$
+% }
+% \eit
+% }
+% \frame{
+% \bit
+% \item  According to this definition (\ex{1}a) evokes (\ex{1}b) and (\ex{1}c)
+%  is About (\ex{1}b). 
+
+% \eeen{\item Missiles have fallen in Israel.
+% \item What kind of missiles were fired?
+% \item It was not a chemical attack.
+% }
+% \eit
+% }
+% \frame{
+% \bit
+% \item In KoS an utterance $u$ by A in which $u1$ is a sub--utterance of $u$
+% permits B to accommodate in $u$'s immediate aftermath the issue
+% (a). (See Ginzburg, Fern\'andez, and Schlangen, tomorrow)
+% \item  This is {\it inter alia} the basis for explaining why
+% (c) is a coherent follow up to (b) and can get the
+% resolution (d). 
+% \item (e) is About (a)
+
+% \item What form did $A$ intend in $u$1?
+% \item A: There's lots of deers there.
+% \item B: Deers?
+% \item Did  $A$ intend the form `deers' in $u1$?
+% \item  B:  It's not deers - it's deer.
+% \eit
+% }
+
+\frame{
+ 
+\frametitle{Conclusions}
+
+\begin{itemize} 
+ 
+\item Negation in natural language is not a simple ``truth-value flipping''
+  truth functional connective
+ 
+\item There are types \textit{Negative Proposition} and
+  \textit{Positive Proposition}
+
+\item Positive and negative questions are distinct
+
+\item Negations require positive expectations
+
+\item Exhaustive answers to positive and negative questions are equivalent
+
+\item Distinguishing positive and negative propositions allows a
+  straightforward characterization of the content of
+  \textit{no}-answers and distinct words for ``yes'' (\textit{oui/si})
+  in many languages
+
+%\item The felicity of negative sentences presupposes a rich dialogical
+ % notion of relevance
+
+\end{itemize} 
+
+
+}  
+
+
+
+
+\frame[allowframebreaks]{
+
+\frametitle{References}
+
+\bibliographystyle{apalike}
+\bibliography{ams11,/Users/cooper/LaTeX/bib/bibliography}
+
+}
+
+\end{document}
+
+
+
+

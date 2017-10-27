@@ -1,0 +1,180 @@
+\documentclass{beamer}
+
+\usepackage{qtree}
+
+\usepackage{beamerthemetree}
+\usepackage{color}
+\setbeamertemplate{footline}[frame number]
+\usepackage{graphicx}
+%\usepackage[swedish]{babel} 
+\usepackage[latin1]{inputenc} 
+\usepackage{natbib}
+ 
+\renewcommand{\newblock}{}
+\renewcommand{\bibsection}{}
+
+\title{Summary}
+\author{Robin Cooper  \\
+University of Gothenburg \\ \medskip 
+Jonathan
+Ginzburg \\ Univ. Paris--Diderot, Sorbonne Paris Cité} 
+\date{Type theory with records for natural language semantics, NASSLLI
+2012 \\ Summary}
+
+\AtBeginSection[]
+{
+   \begin{frame}[plain]
+       \frametitle{Outline}
+       \tableofcontents[currentsection]
+   \end{frame}
+}
+
+\newcommand{\backgroundyellow}{\beamertemplateshadingbackground{yellow!40}{magenta!20}}
+\newcommand{\backgroundwhite}{\beamertemplateshadingbackground{white!100}{white!100}}
+
+\newcommand{\ignore}[1]{}
+
+%Records
+
+ \newcommand{\record}[1]{$\left[\mbox{\begin{tabular}{lcl} #1
+ \end{tabular}}\right]$} 
+%\newcommand{\record}[1]{[#1]}
+
+\newcommand{\smallrecord}[1]{$\left[\mbox{\begin{tabular}{@{}l@{}c@{}l@{}} #1
+\end{tabular}}\right]$}
+\newcommand{\field}[2]{#1 & = & #2}
+%\newcommand{\field}[2]{#1=#2}
+\newcommand{\tfield}[2]{#1 & : & #2}
+\newcommand{\smalltfield}[2]{#1:#2 & &}
+%\newcommand{\tfield}[2]{#1:#2}
+\newcommand{\mfield}[3]{#1=#2 & : & #3}
+\newcommand{\smallmfield}[3]{#1=#2:#3 & &}
+\newcommand{\hfield}[2]{{\sc #1} & & #2}
+
+%Types
+
+\newcommand{\down}[1]{[\ \!\check{}\ \!#1]}
+\newcommand{\downP}[1]{[\downarrow\!#1]}
+\newcommand{\downPl}[2]{[\downarrow_{#2}\!#1]}
+
+\begin{document}
+
+\frame[plain]{\titlepage}
+\frame[plain]{\frametitle{Outline}\tableofcontents}
+
+\frame{
+
+\frametitle{Functions and unification}
+
+\begin{itemize} 
+ 
+\item tools of formal semantics:  functions, binding,  \ldots
+ 
+\item tools of formal grammar:  feature structures, unification, \ldots 
+ 
+\end{itemize} 
+  
+
+}
+
+\frame{
+
+\frametitle{Types and possible worlds}
+
+\begin{itemize} 
+ 
+\item types rather than sets of possible worlds 
+ 
+\item finer grain for representation of content:  distinct types can
+  have the same extension
+
+\item better to have too fine a grain than too coarse a grain
+
+\item distinction between positive and negative propositions
+ 
+\end{itemize} 
+  
+
+}
+
+\frame{
+
+\frametitle{Structured objects}
+
+\begin{itemize} 
+ 
+\item types are structured objects, in particular record types 
+ 
+\item if you have fine grain, you probably want structure -- otherwise
+  difficult to give identity conditions
+
+\item structure is important for semantic coordination and learning
+ 
+\end{itemize} 
+  
+
+}
+
+\frame{
+
+\frametitle{Unified theory of speech events, content and dialogue}
+
+\begin{itemize} 
+ 
+\item TTR is a general type theory used for analysis of speech events
+  (syntax), content (semantics) and dialogue 
+ 
+\item this points towards an explanatory theory of how cognitive
+  evolution led to linguistic ability
+
+\item we gave some indication that our ability has developed for basic
+  event perception and reasoning about events, shared with non-human animals
+ 
+\end{itemize} 
+  
+
+}
+
+\frame{
+
+\frametitle{Some things we are currently working on}
+
+\begin{itemize} 
+ 
+\item probabilistic TTR 
+ 
+\item concept acquisition by robots
+
+\item semantic coordination and language acquisition in dialogue
+
+\item relating TTR to neural implementation
+
+\item implementation of TTR tools
+
+\item semantic benchmarks
+
+\item emotion and meaning
+
+\item relating language and music 
+ 
+\end{itemize} 
+
+
+}  
+
+
+% \frame[allowframebreaks]{
+
+% \frametitle{References}
+
+% \nocite{Asher2011}
+% \nocite{Cooper2011}
+% \nocite{Luo2011}
+
+% \bibliographystyle{apalike}%{/Users/cooper/LaTeX/bib/mybib}
+% \bibliography{/Users/cooper/LaTeX/bib/bibliography}
+% }
+
+  
+
+\end{document}

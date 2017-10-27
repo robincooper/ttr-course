@@ -1,0 +1,933 @@
+\documentclass{beamer}
+
+\usepackage{qtree}
+
+\usepackage{beamerthemetree}
+\usepackage{color}
+\setbeamertemplate{footline}[frame number]
+\usepackage{graphicx}
+%\usepackage[swedish]{babel} 
+\usepackage[latin1]{inputenc} 
+\usepackage{natbib}
+ 
+\renewcommand{\newblock}{}
+\renewcommand{\bibsection}{}
+
+\title{Generalized quantifiers and clarification}
+\author{Robin Cooper  \\
+University of Gothenburg \\ \medskip 
+Jonathan
+Ginzburg \\ Univ. Paris--Diderot, Sorbonne Paris Cité} 
+\date{An Introduction to Semantics using Type Theory with Records \\ ESSLLI
+2012 \\ Lecture 4,  part 2}
+
+\AtBeginSection[]
+{
+   \begin{frame}[plain]
+       \frametitle{Outline}
+       \tableofcontents[currentsection]
+   \end{frame}
+}
+
+\newcommand{\backgroundyellow}{\beamertemplateshadingbackground{yellow!40}{magenta!20}}
+\newcommand{\backgroundwhite}{\beamertemplateshadingbackground{white!100}{white!100}}
+
+\newcommand{\ignore}[1]{}
+
+%Records
+
+ \newcommand{\record}[1]{$\left[\mbox{\begin{tabular}{lcl} #1
+ \end{tabular}}\right]$} 
+%\newcommand{\record}[1]{[#1]}
+
+\newcommand{\smallrecord}[1]{$\left[\mbox{\begin{tabular}{@{}l@{}c@{}l@{}} #1
+\end{tabular}}\right]$}
+\newcommand{\field}[2]{#1 & = & #2}
+%\newcommand{\field}[2]{#1=#2}
+\newcommand{\tfield}[2]{#1 & : & #2}
+\newcommand{\smalltfield}[2]{#1:#2 & &}
+%\newcommand{\tfield}[2]{#1:#2}
+\newcommand{\mfield}[3]{#1=#2 & : & #3}
+\newcommand{\smallmfield}[3]{#1=#2:#3 & &}
+\newcommand{\hfield}[2]{{\sc #1} & & #2}
+
+%Types
+
+\newcommand{\down}[1]{[\ \!\check{}\ \!#1]}
+\newcommand{\downP}[1]{[\downarrow\!#1]}
+\newcommand{\downPl}[2]{[\downarrow_{#2}\!#1]}
+
+\begin{document}
+
+\frame[plain]{\titlepage}
+
+\frame{
+
+\frametitle{Some references}
+
+\cite{Cooper2010a} (paper at SemDial in Pozna\'{n})
+
+\medskip
+
+draft paper submitted to \textit{Dialogue and
+  Discourse}
+(\url{https://sites.google.com/site/semttr/lectures/gqrch.pdf})
+
+}
+
+
+\frame[plain]{\frametitle{Outline}\tableofcontents}
+
+
+
+
+%\section{Generalized quantifiers and clarification content}
+
+\section{The Reprise Content Hypothesis}
+
+\frame{
+
+\frametitle{Reprise questions as clarification requests}
+
+\begin{tabular}[t]{lp{.5\textwidth}}
+Unknown: & What are you making? \\
+Anon 1: & Erm, it's a do- it's \textcolor{blue}{a log}. \\
+Unknown: & \textcolor{red}{A log?} 
+\end{tabular}
+
+}
+
+\frame{
+
+\frametitle{The Reprise Content Hypothesis (RCH)}
+
+\cite{PurverGinzburg2004,GinzburgPurver2008}
+
+\bigskip
+
+\begin{description}
+
+\item[RCH (weak)] A fragment reprise question queries a part of the standard semantic content 
+of the fragment being reprised.
+
+\item[RCH (strong)] A fragment reprise question queries exactly the standard semantic content of 
+the fragment being reprised.
+
+\end{description}
+
+
+}
+
+\section{The anatomy of generalized quantifiers}
+
+\frame{
+
+\frametitle{A type for a ``quantified proposition''}
+
+\begin{itemize} 
+ 
+\item \record{\tfield{restr}{\textit{Ppty}} \\
+        \tfield{scope}{\textit{Ppty}} \\
+        \tfield{c$_q$}{$q$(restr,scope)}} 
+ 
+\pause \item every($\lambda
+r$:\smallrecord{\smalltfield{x}{\textit{Ind}}}(\smallrecord{\smalltfield{c}{dog($r$.x)}}),
+$\lambda r$:\smallrecord{\smalltfield{x}{\textit{Ind}}}(\smallrecord{\smalltfield{c}{run($r$.x)}})) 
+
+\pause \item $q$(restriction,scope)
+
+% \pause \item ``propositions'' as types
+
+% \pause \item \textit{Ppty} -- the type of properties:  \smallrecord{\smalltfield{x}{\textit{Ind}}}$\rightarrow$\textit{RecType}
+
+% \pause \item a property -- $\lambda r$:\smallrecord{\smalltfield{x}{\textit{Ind}}}(\smallrecord{\smalltfield{c}{dog($r$.x)}})
+ 
+\end{itemize} 
+} 
+
+\frame{
+
+\frametitle{\textit{A thief broke in here last night}}
+
+\begin{itemize} 
+ 
+\item \textit{thief} -- ``the property of being a thief'' 
+ 
+\item \textit{bihln} -- ``the property corresponding to \textit{broke
+    in here last night''}
+
+  \item \record{\mfield{restr}{`\textit{thief}'}{\textit{Ppty}} \\
+        \mfield{scope}{`\textit{bihln}'}{\textit{Ppty}} \\
+        \tfield{c$_\exists$}{$\exists$(restr,scope)}}
+ 
+\end{itemize} 
+
+}
+
+\frame{
+
+\frametitle{Getting back to classical GQ theory}
+
+\cite{BarwiseCooper1981}
+
+\begin{itemize} 
+ 
+\item The \textit{extension} of type $T$, $\down{T}$, is the set $\{a\mid a:T\}$. 
+ 
+\item The \textit{P-extension} of property $P$, $\downP{P}$, is the set \\
+$\{a\mid\exists r[r:$\smallrecord{\smalltfield{x}{\textit{Ind}}}
+$\wedge\ r.\mathrm{x}=a\wedge\down{P(r)}\not=\emptyset]\}$.
+
+\item The type $q(P_1,P_2)$ is non-empty iff the relation $q^*$ holds between
+$\downP{P_1}$ and $\downP{P_2}$.  (Constraint on models)
+
+\item For example:
+\begin{itemize} 
+ 
+\item some($P_1$,$P_2$) is non-emtpy (``true'') just in case $\downP{P_1}\cap\downP{P_2}\not=\emptyset$. 
+ 
+\item every($P_1$,$P_2$) is non-emtpy (``true'') just in case
+  $\downP{P_1}\subseteq\downP{P_2}$. 
+
+\item many($P_1$,$P_2$) is non-emtpy (``true'') just in case
+  $\mid\downP{P_1}\cap\downP{P_2}\mid\ > n$, where $n$ counts as many.
+ 
+\end{itemize} 
+  
+ 
+\end{itemize} 
+
+}
+
+\frame{
+
+\frametitle{Witness sets}
+
+\begin{itemize} 
+ 
+\item a witness for a type is something which is of that type
+
+\item a quantifier $q$ is \textit{conservative} means $q^*$ holds
+  between $\downP{P_1}$ and $\downP{P_2}$ just in case $q^*$ holds
+  between $\downP{P_1}$ and $\downP{P_1}\cap\downP{P_2}$ (\textit{every person
+  runs} iff \textit{every person is a person who runs})
+
+\item all natural language quantifier relations are conservative \citep{PetersWesterstahl2006}
+ 
+\item $a:q(P_1,P_2)$ iff $q^*$ holds between $\downP{P_1}$ and $\downP{P_2}$
+and $a=\downP{P_1}\cap\downP{P_2}$ 
+ 
+\end{itemize} 
+
+}  
+  
+% \frame{
+
+% \frametitle{\textit{A thief}}
+
+% \begin{itemize} 
+ 
+% \item $\lambda P$:\textit{Ppty}\\
+% \hspace*{1ex}(\record{\mfield{restr}{`\textit{thief}'}{\textit{Ppty}} \\
+%         \mfield{scope}{$P$}{\textit{Ppty}} \\
+%         \tfield{c$_\exists$}{$\exists$(restr,scope)}}) 
+ 
+% \pause \item Is this the generalized quantifier?
+
+% \pause \item Or is the lambda calculus being used as a glue language?
+% (Blackburn and Bos)
+
+% \pause \item If you have another way to do compositional semantics you
+% can abandon the lambda technology but still have the generalized
+% quantifier relations
+ 
+% \end{itemize} 
+
+% }
+
+% \frame{
+
+% \frametitle{The Purver-Ginzburg alternative anatomy}
+
+% \begin{itemize} 
+ 
+% \item \textit{most students left} 
+ 
+% \item \smallrecord{\smalltfield{q-params}{\smallrecord{\smalltfield{x}{\{\textit{Ind}\}} \\
+%                                   \smalltfield{r}{most(x,student)}}} \\
+%         \smalltfield{cont}{left(q-params.x)}}
+
+%     \item \cite{Ginzburg2012}
+
+% \pause  \item x is a set containing most students, a witness for the
+% quantifier ``most students'' \citep[in the sense of][]{BarwiseCooper1981}
+
+% \pause \item the predicate `left' holds
+% (collectively) for that set (which we may interpret as the predicate
+% `left' holding individually of each member of the
+% witness set)
+ 
+% \end{itemize} 
+       
+% }
+
+% \frame{
+
+% \frametitle{The Purver-Ginzburg anatomy as a GQ analysis}
+
+% \begin{itemize} 
+ 
+% \item  \smallrecord{\smalltfield{q-params}{\smallrecord{\smalltfield{x}{\{\textit{Ind}\}} \\
+%                                   \smalltfield{r}{most(x,student)}}} \\
+%         \smalltfield{cont}{left(q-params.x)}}
+ 
+% \pause \item this anatomy is a generalized quantifier analysis 
+ 
+% \pause \item emphasizes the witness set
+
+% \pause \item uses a witness quantifier relation rather than the basic
+% quantifier relation
+
+% \pause \item works well for monotone increasing
+% quantifiers
+% \end{itemize} 
+
+% }
+
+% \frame{
+
+% \frametitle{The Purver-Ginzburg anatomy and monotone decreasing
+%   quantifiers}
+
+% \begin{itemize} 
+ 
+% \item \smallrecord{\smalltfield{q-params}{\smallrecord{\smalltfield{x}{\{\textit{Ind}\}} \\
+%                                   \smalltfield{r}{few(x,student)}}} \\
+%         \smalltfield{cont}{left(q-params.x)}}
+  
+ 
+% \pause \item problem pointed out by Purver and Ginzburg
+
+% \pause \item their preferred solution involves treating monotone
+% decreasing quantifiers as negations of monotone increasing ones
+ 
+% \end{itemize} 
+% }
+
+\frame{
+
+\frametitle{A modification of Ginzburg and Purver}
+
+\begin{description}
+
+\item[type of (potential) witness sets] $a:q^\dagger(P)$ iff $a\subseteq\downP{P}$ and there is some set $X$
+such that $q^*$ holds between $\downP{P}$ and $X$.
+
+\item[modified Ginzburg and Purver] \record{\tfield{q-params}{\smallrecord{\tfield{w}{most$^\dagger$(student)}}} \\
+        \tfield{cont}{\smallrecord{\mfield{c$_q$}{q-params.w}{most(student,left)}}}} 
+
+\end{description}
+
+}
+
+\frame{
+
+\frametitle{Putting the two analyses together}
+
+\begin{description} 
+ 
+\item[referential] \hspace*{-2em}\smallrecord{\smalltfield{q-params}{\smallrecord{\mfield{restr$_i$}{student}{\textit{Ppty}}
+      \\
+                                                 \tfield{w$_i$}{most$^\dagger$(q-params.restr$_i$)}}} \\
+        \mfield{cont}{ \\
+\hspace*{.5em}$\lambda P$:\textit{Ppty} \\
+\hspace*{1.5em}(\smallrecord{
+                              \mfield{scope}{$P$}{\textit{Ppty}} \\
+                              \mfield{c$_{\mathrm{most}}$}{$\Uparrow$q-params.w$_i$}{most($\Uparrow$q-params.restr$_i$,\\
+                               & & \hspace*{2.5em}scope)}})}{\textit{Quant}}}
+ 
+\item[non-referential]  \smallrecord{\smalltfield{q-params}{\textit{Rec}} \\
+        \mfield{cont}{ \\
+\hspace*{.5em}$\lambda P$:\textit{Ppty} \\
+\hspace*{1.5em}(\smallrecord{\smallmfield{restr$_i$}{student}{\textit{Ppty}}
+      \\
+                                                 \smalltfield{w$_i$}{most$^\dagger$(restr$_i$)} \\
+                              \smallmfield{scope}{$P$}{\textit{Ppty}} \\
+                              \smallmfield{c$_{\mathrm{most}}$}{w$_i$}{most(restr$_i$,scope)}})}{\textit{Quant}}} 
+ 
+\end{description} 
+
+}
+
+% \frame{
+
+% \frametitle{Referential vs non-referential readings}
+
+% \begin{itemize} 
+ 
+% \item Most students will pass the exam \pause \ldots namely the ones
+%   who have done all the homework 
+ 
+% \item Sam believes that most students will pass \pause \ldots namely
+%   the ones who have done all the homework
+
+% \item Sam doesn't believe that most students will pass \pause \ldots
+%   \# namely the ones who have done all the homework
+ 
+% \end{itemize} 
+
+% }    
+
+
+% \frame{
+
+% \frametitle{\textit{few} as \textit{not many}}
+
+
+% \begin{itemize} 
+ 
+% \item \smallrecord{\smalltfield{c}{$\neg$(\smallrecord{\smalltfield{q-params}{\smallrecord{\smalltfield{x}{\{\textit{Ind}\}} \\
+%                                   \smalltfield{r}{many(x,student)}}} \\
+%         \smalltfield{cont}{left(q-params.x)}})}} 
+ 
+% \item my reconstruction of Purver and Ginzburg's suggestion 
+
+% \pause \item what should the content of the noun-phrase \textit{few
+%   students} be?
+
+% \pause \item \hspace*{-1.5ex}$\lambda P$:\textit{Ppty}\\ 
+% \hspace*{-1ex}(\smallrecord{\smalltfield{c}{$\neg$(\smallrecord{\smalltfield{q-params}{\smallrecord{\smalltfield{x}{\{\textit{Ind}\}} \\
+%                                   \smalltfield{r}{many(x,student)}}} \\
+%         \smalltfield{cont}{$P$(q-params.x)}})}}) 
+
+% \pause \item if you have a different glue technology you can perhaps
+% avoid the lambda abstraction
+ 
+% \end{itemize} 
+
+% }
+
+% \frame{
+
+% \frametitle{Non-monotone quantifiers}
+
+% \begin{itemize} 
+ 
+% \item \textit{only Sam} 
+ 
+% \item \textit{an even number of students}
+
+% \pause \item not clear that the negation trick is available
+ 
+% \end{itemize} 
+
+% }  
+
+% \frame{
+
+% \frametitle{Separating glue from generalized quantifiers}
+
+% \begin{itemize} 
+ 
+% \item Purver and Ginzburg's quarrel is with the lambda technology, not
+%   the generalized quantifiers as such 
+ 
+% \item So why not return to the unproblematic quantifier relation and
+%   test out the predictions of the first anatomy for clarification? 
+ 
+% \end{itemize} 
+
+
+% } 
+
+      
+% \section{Potential clarification requests and clarifications}
+
+% \frame{
+
+% \frametitle{Possible responses to noun-phrase reprise clarification
+%   requests}
+
+% \begin{tabular}[t]{ll}
+% A: & A thief broke in here last night \\
+% B: & A thief? \\
+% A: & \begin{tabular}[t]{lp{.75\textwidth}} \initalphcounter
+%       \textit{\alphnum.} & my ex-husband, actually (\textit{witness}) \\
+%       \textit{\alphnum.} & burglar wearing a mask (\textit{restriction}) \\
+%       \textit{\alphnum.} & got in through the bedroom window (\textit{scope}) \\
+%       \textit{\alphnum.} & two, actually (\textit{quantifier relation})
+%       \end{tabular}
+% \end{tabular}
+
+% }
+
+% \frame{
+
+% \frametitle{Possible non-reprise clarification requests}
+
+% \begin{tabular}[t]{lp{.75\textwidth}}
+% A: & Somebody broke in here last night \\
+% B: & \begin{tabular}[t]{lp{.75\textwidth}} \initalphcounter
+%       \textit{\alphnum.} & (not) your ex-husband? (\textit{witness}) \\
+%       \textit{\alphnum.} & burglar wearing a mask? (\textit{restriction}) \\
+%       \textit{\alphnum.} & got in through the bedroom window? (\textit{scope}) \\
+%       \textit{\alphnum.} & just one? (\textit{quantifier relation})
+%       \end{tabular}
+% \end{tabular}
+% }
+
+% \frame{
+
+% \frametitle{Some odd clarification requests}
+
+% \begin{tabular}[t]{lp{.75\textwidth}}
+% A: & Somebody broke in here last night \\
+% B: & \begin{tabular}[t]{lp{.75\textwidth}} \initalphcounter
+%       \textit{\alphnum.} & maroon? \alphlabel{eg:maroon}\\
+%       \textit{\alphnum.} & maroon sweater? \alphlabel{eg:maroonsweater}\\
+%       \textit{\alphnum.} & police?  \alphlabel{eg:police}\\
+%       \textit{\alphnum.} & scar over the left eye? \alphlabel{eg:scar}\\
+%      \end{tabular}
+% \end{tabular}
+
+% }
+
+% \frame{
+
+% \frametitle{Clarification requests for ``non-referential''
+%   quantifiers}
+
+% \begin{tabular}[t]{lp{.75\textwidth}}
+% A: & most thieves are
+% opportunists \\
+%    &\footnotesize{\url{http://www.accessmylibrary.com/coms2/summary_0286-33299010_ITM},
+%   accessed 18th January, 2010}
+% \\
+% B: & most thieves? \\
+% A: & \begin{tabular}[t]{lp{.75\textwidth}} \initalphcounter
+%       \textit{\alphnum.} & successful ones
+%       (\textit{witness}/\textit{restriction})
+%       \alphlabel{eg:successfulthieves}\\
+%                          & ``successful
+% thieves are opportunists'' (a witness reading) \\
+%                         & ``most successful
+% thieves are opportunists'' (a restriction reading) \\
+%       \textit{\alphnum.} & bide their time (\textit{scope}) \\
+%       \textit{\alphnum.} & 80\%, actually (\textit{quantifier relation})
+%       \end{tabular} 
+% \end{tabular}
+
+% }
+
+% \frame{
+
+% \frametitle{Scope clarifications}
+
+% \begin{itemize} 
+ 
+% \item less likely as clarifications of noun-phrase 
+ 
+% \pause \item  scope note present in the noun-phrase
+ 
+% \end{itemize} 
+
+% }
+
+\section{Clarifications in the Purver-Ginzburg data}
+
+\frame{
+
+\frametitle{What can clarifications address?}
+
+\begin{itemize} 
+ 
+\item must be a path in the record type 
+ 
+\item tends to be a ``major constituent'' 
+ 
+\end{itemize} 
+
+
+}
+
+\frame{
+
+\frametitle{Predictions for NP clarification requests}
+
+\begin{itemize} 
+ 
+\item witness (for a referential reading) 
+ 
+\item restriction (dispreferred for syntactic reasons)
+
+\item content (possible with restriction or quantifier relation focus)
+ 
+\end{itemize} 
+
+
+}    
+
+
+
+% \frame{
+
+% \frametitle{Kinds of clarification exemplified}
+
+% \begin{itemize} 
+
+% \item clarifications as opposed to clarification requests
+ 
+% \pause \item witness clarifications 
+ 
+% \item restriction clarifications (the majority)
+
+% \item quantifier relation clarifications
+
+% \pause \item no scope clarifications
+ 
+% \end{itemize} 
+
+% }
+
+\frame{
+
+\frametitle{Witness clarifications}
+
+\begin{tabular}[t]{lp{.75\textwidth}}
+Unknown: & And er they X-rayed me, and took a urine sample, 
+took a blood sample. Er, the doctor  \\
+Unknown: & Chorlton? \\
+Unknown: & \textbf{Chorlton}, mhm, he examined me, erm, he, he said 
+now they were on about a slide $\langle$unclear$\rangle$ on my 
+heart. Mhm, he couldn't find it. 
+\end{tabular}
+
+\medskip
+
+BNC file KPY, sentences 1005--1008
+
+} 
+
+\frame{
+
+\frametitle{Witness clarifications, \textit{contd.}}
+
+\begin{tabular}[t]{lp{.75\textwidth}}
+Terry: & Richard hit the ball on the car. \\
+& \ldots \\
+Nick: & What ball? \\
+Terry: & \textbf{James [last name]'s football}.
+\end{tabular}
+
+\medskip
+
+BNC file KR2, sentences 862, 865--866
+
+}
+
+% \frame{
+
+% \frametitle{The status of witness clarifications}
+
+% \begin{itemize} 
+ 
+% \item  \textit{James [last name]'s football} could be a combination of
+% \begin{itemize} 
+ 
+% \item a restriction clarification -- \textit{ball}$\rightarrow$\textit{football} 
+ 
+% \item a quantifier relation clarification if we analyze \textit{James [last
+%   name]'s} as a determiner representing a quantifier relation 
+ 
+% \end{itemize} 
+  
+ 
+% \item \textit{Chorlton} could also be a restriction clarification if
+%   you think of the proper name as ``the person named Chorlton'' 
+ 
+% \end{itemize} 
+
+% }
+
+\frame{
+
+\frametitle{Restriction clarifications -- additional material
+  (locative relative clause)}
+
+\begin{tabular}[t]{lp{.75\textwidth}}
+George: & You want to tell them, bring the tourist around show 
+them the spot \\
+Sam: & The spot? \\
+George: & \textbf{where you spilled your blood}
+\end{tabular}
+
+\medskip
+
+BNC file KDU, sentences 728--730
+
+} 
+
+\frame{
+
+\frametitle{Restriction clarifications -- NP with additional modifier
+  (relative clause)}
+
+\begin{tabular}[t]{lp{.75\textwidth}}
+Terry: & Richard hit the ball on the car. \\
+Nick: & What car? \\
+Terry: & \textbf{The car that was going past}. \\
+\end{tabular}
+
+\medskip
+
+BNC file KR2, sentences 862--864
+
+}
+
+\frame{
+
+\frametitle{Restriction clarifications -- NP with additional modifier
+  (noun compound)}
+
+\begin{tabular}[t]{lp{.75\textwidth}}
+Anon 1: & In those days how many people were actually 
+involved on the estate? \\
+Tommy: & Well there was a lot of people involved on the estate 
+because they had to repair paths. They had to keep 
+the river streams all flowing and if there was any 
+deluge of rain and stones they would have to keep 
+all the pools in good order and they would \\
+Anon 1: & The pools? \\
+Tommy: & Yes the pools. That's \textbf{the salmon pools} \\
+Anon 1: & Mm.
+\end{tabular} 
+
+\medskip
+
+BNC file K7D, sentences 307--313 
+
+}
+
+\frame{
+
+\frametitle{Restriction clarifications -- NP with complement}
+
+\begin{tabular}[t]{lp{.75\textwidth}}
+Eddie: & I'm used to sa-, I'm used to being told that at school. 
+I want you $\langle$pause$\rangle$ to write the names of these notes 
+up here. \\
+Anon 1: & The names? \\
+Eddie: & \textbf{The names of them}. \\
+Anon 1: & Right. 
+\end{tabular}
+
+\medskip
+
+BNC file KPB, sentences 417--421
+
+}
+
+\frame{
+
+\frametitle{Restriction clarifications -- NP with noun compound}
+
+\begin{tabular}[t]{lp{.75\textwidth}}
+Nicola: & We're just going to Beckenham because we have to 
+go to a shop there. \\
+Oliver: & What shop? \\
+Nicola: & \textbf{A clothes shop}. $\langle$pause$\rangle$ and we need to go to the 
+bank too.
+\end{tabular} 
+
+\medskip
+
+BNC file KDE, sentences 2214--2217
+
+}
+
+\frame{
+
+\frametitle{Restriction clarification request clarification}
+
+\begin{tabular}[t]{lp{.75\textwidth}} 
+Anon 1: & Er are you on any sort of medication at all Suzanne? 
+Nothing? \\
+Suzanne: & No. Nothing at all. \\
+Anon 1: & Nothing? \textbf{No er things from the chemists and cough 
+mixtures or anything} $\langle$unclear$\rangle$? 
+\end{tabular} 
+
+\medskip
+
+BNC file H4T, sentences 43--48
+
+}
+
+\frame{
+
+\frametitle{Restriction clarifications -- non-monotonic modifier
+  substitution}
+
+\begin{tabular}[t]{lp{.75\textwidth}}
+Elaine: & what frightened you? \\
+Unknown: & The bird in my bed. \\
+Elaine: & The what? \\
+Audrey: & The birdie? \\
+Unknown: & \textbf{The bird in the window}.
+\end{tabular}
+
+\medskip
+
+BNC file KBC, sentences 1193--1197
+
+}
+
+\frame{
+
+\frametitle{Restriction clarifications -- non-monotonic restriction
+  replacement}
+
+\begin{tabular}[t]{lp{.75\textwidth}}
+Mum: & What it ever since last August. I've been treating it as 
+a wart. \\
+Vicky: & A wart? \\
+Mum: & \textbf{A corn} and I've been putting corn plasters on it
+\end{tabular}
+
+\medskip
+
+BNC file KE3, sentences 4678--4681
+
+}
+
+\frame{
+
+\frametitle{Restriction clarifications -- monotonic modifier
+  substitution}
+
+\begin{tabular}[t]{lp{.75\textwidth}}
+Stefan: & Everything work which is contemporary it is 
+decided \\
+Katherine: & Is one man? \\
+Stefan: & No it is a woman \\
+Katherine: & A woman? \\
+Stefan: & \textbf{A director who'll decide}.
+\end{tabular}
+
+\medskip
+
+BNC file KCV, sentences 3012--3016
+
+}
+
+\frame{
+
+\frametitle{Restriction clarifications -- searching for the right
+  noun}
+
+\begin{tabular}[t]{lp{.75\textwidth}}
+Unknown: & What are you making? \\
+Anon 1: & Erm, it's a do- it's a log. \\
+Unknown: & A log? \\
+Anon 1: & \textbf{Yeah a book, log book}.
+\end{tabular}
+
+\medskip
+
+}
+
+\frame{
+
+\frametitle{Restriction clarifications -- difficult to classify}
+
+\begin{tabular}[t]{lp{.75\textwidth}}
+Richard: & No I'll commute every day \\
+Anon 6: & Every day? \\
+Richard: & \textbf{as if, er Saturday and Sunday} \\
+Anon 6: & And all holidays? \\
+Richard: & Yeah $\langle$pause$\rangle$
+\end{tabular}
+
+\medskip
+
+BNC file KSV, sentences 257--261
+
+}
+
+\frame{
+
+\frametitle{Quantifier relation clarifications}
+
+\begin{tabular}[t]{lp{.75\textwidth}}
+Anon 2: & Was it nice there? \\
+Anon 1: & Oh yes, lovely. \\
+Anon 2: & Mm. \\
+Anon 1: & It had twenty rooms in it. \\
+Anon 2: & \textbf{Twenty rooms?} \\
+Anon 1: & \textbf{Yes}. \\
+Anon 2: & How many people worked there?
+\end{tabular}
+
+\medskip
+
+BNC file K6U, sentences 1493--1499
+
+}
+
+\frame{
+
+\frametitle{Quantifier relation clarifications, \textit{contd.}}
+
+\begin{tabular}[t]{lp{.75\textwidth}}
+Marsha: & yeah that's it, this, she's got three rottweilers now and \\
+Sarah: & \textbf{three?} \\
+Marsha: & \textbf{yeah}, one died so only got three now $\langle$laugh$\rangle$
+\end{tabular} 
+
+\medskip
+
+BNC file KP2, sentences 295--297
+
+}  
+
+\section{Conclusions}
+
+\frame{
+
+\frametitle{Generalized quantifiers and the Reprise Content
+  Hypothesis}
+
+\begin{itemize} 
+ 
+\item Purver and Ginzburg's data fit the predictions of the classical
+  GQ anatomy 
+ 
+\pause \item Unclarities vary within the range of the predictions
+
+\pause \item Responses to clarification questions provide clues to the
+  meaning of the clarification request
+
+\pause \item Does this point to the weak version of RCH?
+
+% \pause \item Even stripping away the issue of the lambda glue
+% language, when you
+% look at the clarifications themselves -- not just the requests, does the Purver-Ginzburg proposal fare any better?
+ 
+\end{itemize} 
+
+}   
+\frame[allowframebreaks]
+
+\frametitle{Bibliography}
+
+%\bibliographystyle{acl}
+
+\bibliographystyle{/Users/cooper/LaTeX/bib/mybib}
+\bibliography{/Users/cooper/LaTeX/bib/bibliography}
+
+}
+
+
+  
+
+\end{document}
